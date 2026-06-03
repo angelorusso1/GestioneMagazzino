@@ -1,10 +1,56 @@
 package controller;
 
+import boundary.MainFrame;
+import boundary.SchermataLogin;
 import entity.*;
 
 import java.time.LocalDate;
 
+import boundary.SchermataRegistrazione;
+import entity.Ruolo;
+
+import javax.swing.*;
+
 public class MagazzinoController {
+
+	private SchermataRegistrazione schermata;
+	private SchermataLogin schermataLogin;
+
+	public MagazzinoController(SchermataRegistrazione schermata) {
+		this.schermata = schermata;
+	}
+
+	public MagazzinoController(SchermataLogin schermataLogin) {
+		this.schermataLogin = schermataLogin;
+	}
+
+	public void richiediAccesso(String nome, String cognome, String email) {
+		GestioneUtenti gestioneUtenti = new GestioneUtenti();
+
+		// Cerchiamo l'utente sul DB
+		Utente utenteTrovato = gestioneUtenti.verificaCredenziali(nome, cognome, email);
+
+		if (utenteTrovato == null) {
+			// ❌ UTENTE NON ESISTE
+			schermataLogin.messaggioErrore("Utente non esistente. Verifica i dati inseriti.");
+		} else {
+			// ✅ UTENTE TROVATO! Verifichiamo il ruolo usando "instanceof"
+			schermataLogin.messaggioConferma("Benvenuto " + utenteTrovato.getNome() + "!");
+
+			// ✅ APRIAMO IL MAIN FRAME E GLI PASSIAMO L'UTENTE TROVATO NEL DATABASE
+			JFrame framePrincipale = new JFrame("Sistema di Gestione Magazzino");
+			MainFrame mainFrame = new MainFrame(utenteTrovato);
+
+			framePrincipale.setContentPane(mainFrame.getMainPanel());
+			framePrincipale.setSize(600, 450); // Finestra un po' più grande per la dashboard
+			framePrincipale.setLocationRelativeTo(null);
+			framePrincipale.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			framePrincipale.setVisible(true);
+
+			// Chiudiamo la schermata di login che ormai non serve più
+			schermataLogin.chiudiFinestra();
+		}
+	}
 
 	public void richiediCatalogoCompleto() {
 		// TODO - implement MagazzinoController.richiediCatalogoCompleto
@@ -78,8 +124,16 @@ public class MagazzinoController {
 	 * @param ruolo
 	 */
 	public void richiediRegistrazione(String nome, String cognome, String email, Ruolo ruolo) {
-		// TODO - implement MagazzinoController.richiediRegistrazione
-		throw new UnsupportedOperationException();
+		GestioneUtenti gestioneUtenti = new GestioneUtenti();
+
+		// Passiamo la enum al gestore
+		boolean esito = gestioneUtenti.registraDati(nome, cognome, email, ruolo);
+
+		if (esito) {
+			schermata.messaggioConferma("Utente registrato con successo nel database!");
+		} else {
+			schermata.messaggioErrore("Errore durante la registrazione dell'utente.");
+		}
 	}
 
 	/**
