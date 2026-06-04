@@ -10,6 +10,19 @@ public class Categoria {
 	private Long id;
 	private String Nome;
 
+	//costruttore vuoto
+	public Categoria() {
+	}
+
+	//costruttore per i parametri
+	public Categoria(String nome) {
+		this.Nome = nome;
+	}
+
+	public Long getId() {
+		return this.id;
+	}
+
 	public String getNome() {
 		return this.Nome;
 	}
@@ -17,5 +30,4 @@ public class Categoria {
 	public void setNome(String Nome) {
 		this.Nome = Nome;
 	}
-
 }

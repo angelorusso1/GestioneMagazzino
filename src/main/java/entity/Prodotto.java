@@ -7,89 +7,114 @@ public class Prodotto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long Id;
-	private String Nome;
-	private String Descrizione;
-	private int SogliaMinima;
-	private int QuantitaDisponibile = 0;
+	private Long id;
+
+	private String nome;
 	private String codice;
+	private String descrizione;
+	private int sogliaMinima;
+	private int quantitaDisponibile = 0;
+
+	// Relazione: Molti Prodotti appartengono a una Categoria
+	@ManyToOne
+	@JoinColumn(name = "categoria_id")
+	private Categoria categoria;
+
+	// Relazione: Molti Prodotti sono collocati in una Posizione
+	@ManyToOne
+	@JoinColumn(name = "posizione_id")
+	private Posizione posizione;
+
+	/**
+	 * Costruttore VUOTO (Obbligatorio per JPA)
+	 */
+	public Prodotto() {
+	}
+
+	/**
+	 * Costruttore con parametri per la logica di business (Creazione Prodotti)
+	 */
+	public Prodotto(String codice, String nome, String descrizione, int sogliaMinima, Categoria categoria, Posizione posizione) {
+		this.codice = codice;
+		this.nome = nome;
+		this.descrizione = descrizione;
+		this.sogliaMinima = sogliaMinima;
+		this.categoria = categoria;
+		this.posizione = posizione;
+		this.quantitaDisponibile = 0;
+	}
 
 	public Long getId() {
-		return this.Id;
+		return this.id;
+	}
+
+	public String getCodice() {
+		return this.codice;
+	}
+
+	public void setCodice(String codice) {
+		this.codice = codice;
 	}
 
 	public String getNome() {
-		return this.Nome;
+		return this.nome;
 	}
 
-	public void setNome(String Nome) {
-		this.Nome = Nome;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getDescrizione() {
-		return this.Descrizione;
+		return this.descrizione;
 	}
 
-	public void setDescrizione(String Descrizione) {
-		this.Descrizione = Descrizione;
+	public void setDescrizione(String descrizione) {
+		this.descrizione = descrizione;
 	}
 
 	public int getSogliaMinima() {
-		return this.SogliaMinima;
+		return this.sogliaMinima;
 	}
 
-	public void setSogliaMinima(int SogliaMinima) {
-		this.SogliaMinima = SogliaMinima;
+	public void setSogliaMinima(int sogliaMinima) {
+		this.sogliaMinima = sogliaMinima;
 	}
 
 	public int getQuantitaDisponibile() {
-		return this.QuantitaDisponibile;
+		return this.quantitaDisponibile;
 	}
 
-	public void setQuantitaDisponibile(int QuantitaDisponibile) {
-		this.QuantitaDisponibile = QuantitaDisponibile;
-	}
-
-	public boolean isSottoScorta() {
-		// TODO - implement Prodotto.isSottoScorta
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param quantita
-	 */
-	public boolean verificaOperazione(int quantita) {
-		// TODO - implement Prodotto.verificaOperazione
-		throw new UnsupportedOperationException();
+	public void setQuantitaDisponibile(int quantitaDisponibile) {
+		this.quantitaDisponibile = quantitaDisponibile;
 	}
 
 	public Categoria getCategoria() {
-		// TODO - implement Prodotto.getCategoria
-		throw new UnsupportedOperationException();
+		return this.categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 
 	public Posizione getPosizione() {
-		// TODO - implement Prodotto.getPosizione
-		throw new UnsupportedOperationException();
+		return this.posizione;
 	}
 
-	/**
-	 * 
-	 * @param posizione
-	 */
 	public void setPosizione(Posizione posizione) {
-		// TODO - implement Prodotto.setPosizione
-		throw new UnsupportedOperationException();
+		this.posizione = posizione;
+	}
+
+	// --- METODI DI BUSINESS DA IMPLEMENTARE ---
+
+	public boolean isSottoScorta() {
+		return this.quantitaDisponibile < this.sogliaMinima;
 	}
 
 	/**
-	 * 
-	 * @param categoria
+	 * Verifica se è possibile effettuare uno scarico della quantità richiesta
+	 * @param quantita la quantità da prelevare
 	 */
-	public void setCategoria(Categoria categoria) {
-		// TODO - implement Prodotto.setCategoria
-		throw new UnsupportedOperationException();
+	public boolean verificaOperazione(int quantita) {
+		return this.quantitaDisponibile >= quantita;
 	}
-
 }

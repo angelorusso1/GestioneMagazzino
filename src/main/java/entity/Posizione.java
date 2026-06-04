@@ -12,6 +12,20 @@ public class Posizione {
 	private int Scaffale;
 	private String Area;
 
+	//costruttore vuoto
+	public Posizione() {
+	}
+
+	//costruttore per i parametri
+	public Posizione(int scaffale, String area) {
+		this.Scaffale = scaffale;
+		this.Area = area;
+	}
+
+	public Long getId() {
+		return this.id;
+	}
+
 	public int getScaffale() {
 		return this.Scaffale;
 	}
@@ -27,5 +41,4 @@ public class Posizione {
 	public void setArea(String Area) {
 		this.Area = Area;
 	}
-
 }
