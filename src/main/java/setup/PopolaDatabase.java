@@ -7,7 +7,7 @@ import entity.Responsabile;
 
 public class PopolaDatabase {
     public static void main(String[] args) {
-        System.out.println("🚀 Avvio popolamento database con utenti di prova...");
+        System.out.println("Avvio popolamento database con utenti di prova...");
 
         // 1. Recuperiamo l'istanza del GestorePersistenza
         GestorePersistenza gestore = new GestorePersistenza();
@@ -25,20 +25,20 @@ public class PopolaDatabase {
         oper.setEmail("giuseppe.verdi@magazzino.it");
 
         // 4. Salviamo gli utenti
-        System.out.println("⏳ Salvataggio degli utenti in corso...");
+        System.out.println("Salvataggio degli utenti in corso...");
 
         boolean esitoResp = gestore.salva(resp);
         boolean esitoOper = gestore.salva(oper);
 
         // 5. Verifichiamo l'esito
         if (esitoResp && esitoOper) {
-            System.out.println("✅ Utenti salvati con successo nel database!");
+            System.out.println("Utenti salvati con successo nel database!");
         } else {
-            System.err.println("❌ Errore durante il salvataggio degli utenti.");
+            System.err.println("Errore durante il salvataggio degli utenti.");
         }
 
         // 6. Chiudiamo la connessione
         JpaUtil.getInstance().chiudi();
-        System.out.println("🏁 Test terminato.");
+        System.out.println("Test terminato.");
     }
 }

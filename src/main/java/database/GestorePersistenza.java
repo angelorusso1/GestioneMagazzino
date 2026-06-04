@@ -301,7 +301,7 @@ public class GestorePersistenza {
 			// Se l'utente non esiste nel database, JPA lancia questa eccezione: restituiamo null
 			return null;
 		} finally {
-			em.close(); // Buona pratica: chiudere sempre l'EntityManager temporaneo
+			em.close(); //chiudiamo l'EntityManager temporaneo
 		}
 	}
 

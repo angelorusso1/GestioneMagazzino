@@ -28,15 +28,13 @@ public class MainFrame {
             btnVisualizzaAnalisiMagazzino.setVisible(true);
             btnEffettuaScarico.setVisible(false);
         } else if (utenteLoggato instanceof Operatore) {
-            // Se è operatore, gli nascondiamo i bottoni da capo
+            // Se è operatore, gli nascondiamo i bottoni da responsabile
             btnCreaProdotto.setVisible(false);
             btnVisualizzaAnalisiMagazzino.setVisible(false);
             btnEffettuaScarico.setVisible(true);
-
-            // (In futuro qui potrai rendere visibili i bottoni specifici dell'operatore, es. "Gestisci Ordini")
         }
 
-        // 3. Listener per il Logout (se lo hai inserito)
+        // 3. Listener per il Logout
         if (btnLogout != null) {
             btnLogout.addActionListener(new ActionListener() {
                 @Override
