@@ -44,7 +44,7 @@ public class SchermataCatalogoProdotti {
 
         System.out.println("\n[INTERFACCIA] Invio dei dati al Controller...");
 
-        this.magazzinoController.richiediCreazioneProdotto(codice, nome, descrizione, categoria, soglia, posizione, 0);
+        this.magazzinoController.richiediCreazioneProdotto(codice, nome, descrizione, categoria, soglia, posizione, this);
     }
 
     public void messaggioConferma(String messaggio) {
@@ -52,5 +52,4 @@ public class SchermataCatalogoProdotti {
         System.out.println("[NOTIFICA INTERFACCIA]: " + messaggio);
     }
 }
-
 
