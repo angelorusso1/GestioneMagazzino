@@ -3,9 +3,11 @@ package boundary;
 import entity.*;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class SchermataCatalogoProdotti0 {
 
+	private Scanner scanner;
 	public void selezionaProdotto() {
 		// TODO - implement SchermataCatalogoProdotti.selezionaProdotto
 		throw new UnsupportedOperationException();
@@ -18,7 +20,8 @@ public class SchermataCatalogoProdotti0 {
 
 	public void creaNuovoProdotto() {
 		// TODO - implement SchermataCatalogoProdotti.creaNuovoProdotto
-		throw new UnsupportedOperationException();
+		System.out.println("SCHERMATA: CREAZIONE NUOVO PRODOTTO");
+		inserisciDati();
 	}
 
 	public void inserisciDati() {
@@ -91,7 +94,7 @@ public class SchermataCatalogoProdotti0 {
 	 */
 	public void messaggioConferma(String messaggio) {
 		// TODO - implement SchermataCatalogoProdotti.messaggioConferma
-		throw new UnsupportedOperationException();
+		System.out.println("[NOTIFICA INTERFACCIA]: " + messaggio);
 	}
 
 	/**
