@@ -31,13 +31,13 @@ public class MagazzinoController {
 		Utente utenteTrovato = gestioneUtenti.verificaCredenziali(nome, cognome, email);
 
 		if (utenteTrovato == null) {
-			// ❌ UTENTE NON ESISTE
+			//UTENTE NON ESISTE
 			schermataLogin.messaggioErrore("Utente non esistente. Verifica i dati inseriti.");
 		} else {
-			// ✅ UTENTE TROVATO! Verifichiamo il ruolo usando "instanceof"
+			//UTENTE TROVATO! Verifichiamo il ruolo usando "instanceof"
 			schermataLogin.messaggioConferma("Benvenuto " + utenteTrovato.getNome() + "!");
 
-			// ✅ APRIAMO IL MAIN FRAME E GLI PASSIAMO L'UTENTE TROVATO NEL DATABASE
+			// APRIAMO IL MAIN FRAME E GLI PASSIAMO L'UTENTE TROVATO NEL DATABASE
 			JFrame framePrincipale = new JFrame("Sistema di Gestione Magazzino");
 			MainFrame mainFrame = new MainFrame(utenteTrovato);
 
@@ -47,7 +47,7 @@ public class MagazzinoController {
 			framePrincipale.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			framePrincipale.setVisible(true);
 
-			// Chiudiamo la schermata di login che ormai non serve più
+			// Chiudiamo la schermata di login
 			schermataLogin.chiudiFinestra();
 		}
 	}
