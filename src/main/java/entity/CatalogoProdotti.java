@@ -7,7 +7,6 @@ import java.util.List;
 public class CatalogoProdotti {
 
 	private GestorePersistenza gestorePersistenza;
-
 	// Lista interna in-memory per tracciare i prodotti e consentire la simulazione dei metodi
 	private List<Prodotto> listaProdotti;
 
