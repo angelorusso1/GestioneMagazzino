@@ -2,55 +2,104 @@ package boundary;
 
 import controller.MagazzinoController;
 import entity.*;
-
-import java.util.List;
-import java.util.Scanner;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class SchermataCatalogoProdotti {
+
+    // Questi componenti ora corrispondono esattamente a quelli legati nel tuo .form
+    private JPanel mainPanel;
+    private JTextField txtCodice;
+    private JTextField txtNome;
+    private JTextField txtDescrizione;
+    private JTextField txtCategoria;
+    private JTextField txtSoglia;
+    private JTextField txtScaffale;
+    private JTextField txtArea;
+    private JButton btnSalva;
+
     private MagazzinoController magazzinoController;
-    private Scanner scanner;
+
+    /**
+     * Costruttore accoppiato con il controller grafico
+     */
+    public SchermataCatalogoProdotti(MagazzinoController magazzinoController) {
+        this.magazzinoController = magazzinoController;
+
+        // Listener agganciato al pulsante che hai chiamato "btnSalva" nelle proprietà
+        btnSalva.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Avvia formalmente il caso d'uso del Sequence Diagram
+                creaNuovoProdotto();
+            }
+        });
+    }
+
     public void creaNuovoProdotto() {
-        // TODO - implement SchermataCatalogoProdotti.creaNuovoProdotto
-        System.out.println("SCHERMATA: CREAZIONE NUOVO PRODOTTO");
+        // Richiamo logico dell'inserimento dati
         inserisciDati();
     }
 
     public void inserisciDati() {
-        // TODO - implement SchermataCatalogoProdotti.inserisciDati
-        System.out.println("COMPILAZIONE MODULO PRODOTTO: ");
+        try {
+            // Estrazione sicura del testo digitato dall'utente nella tua griglia grafica
+            String codice = txtCodice.getText().trim();
+            String nome = txtNome.getText().trim();
+            String descrizione = txtDescrizione.getText().trim();
 
-        System.out.print("Codice identificativo univoco: ");
-        String codice = scanner.nextLine();
+            String nomeCategoria = txtCategoria.getText().trim();
+            Categoria categoria = new Categoria(nomeCategoria);
 
-        System.out.print("Nome prodotto: ");
-        String nome = scanner.nextLine();
+            int soglia = Integer.parseInt(txtSoglia.getText().trim());
 
-        System.out.print("Descrizione: ");
-        String descrizione = scanner.nextLine();
+            int scaffale = Integer.parseInt(txtScaffale.getText().trim());
+            String area = txtArea.getText().trim();
+            Posizione posizione = new Posizione(scaffale, area);
 
-        System.out.print("Categoria: ");
-        String nomeCategoria = scanner.nextLine();
-        Categoria categoria = new Categoria(nomeCategoria);
+            // Validazione locale prima dell'invio al sistema
+            if (codice.isEmpty() || nome.isEmpty()) {
+                messaggioConferma("ATTENZIONE: I campi Codice e Nome sono obbligatori per procedere.");
+                return;
+            }
 
-        System.out.print("Soglia minima di disponibilità: ");
-        int soglia = Integer.parseInt(scanner.nextLine());
+            // Inoltro formale dei dati al cervello del sistema passandogli la schermata corrente (this)
+            this.magazzinoController.richiediCreazioneProdotto(codice, nome, descrizione, categoria, soglia, posizione, this);
 
-        System.out.print("Posizione (scaffale/area): ");
-        String infoPosizione = scanner.nextLine();
-        int scaffale = scanner.nextInt();
-        // Nota: Qui passiamo infoPosizione sia come scaffale che come area per semplicità di input da console
-        Posizione posizione = new Posizione(scaffale, infoPosizione);
-
-
-        System.out.println("\n[INTERFACCIA] Invio dei dati al Controller...");
-
-        this.magazzinoController.richiediCreazioneProdotto(codice, nome, descrizione, categoria, soglia, posizione, 0);
+        } catch (NumberFormatException ex) {
+            // Gestione dell'errore di digitazione se l'utente inserisce lettere nei campi numerici
+            messaggioConferma("ERRORE: I campi 'Soglia Minima' e 'Numero Scaffale' richiedono un numero intero.");
+        }
     }
 
+    /**
+     * Riceve il messaggio di ritorno dal Controller e genera un popup grafico Swing
+     */
     public void messaggioConferma(String messaggio) {
-        // TODO - implement SchermataCatalogoProdotti.messaggioConferma
-        System.out.println("[NOTIFICA INTERFACCIA]: " + messaggio);
+        // Mostra un popup nativo centrato sul pannello principale
+        JOptionPane.showMessageDialog(mainPanel, messaggio, "Notifica Sistema", JOptionPane.INFORMATION_MESSAGE);
+
+        // Se l'operazione è andata a buon fine, svuotiamo la griglia per un eventuale nuovo inserimento
+        if (messaggio.contains("inserito correttamente")) {
+            pulisciCampiGrafici();
+        }
+    }
+
+    /**
+     * Svuota tutti i campi di testo della maschera
+     */
+    private void pulisciCampiGrafici() {
+        txtCodice.setText("");
+        txtNome.setText("");
+        txtDescrizione.setText("");
+        txtCategoria.setText("");
+        txtSoglia.setText("");
+        txtScaffale.setText("");
+        txtArea.setText("");
+    }
+
+    public JPanel getMainPanel() {
+        return mainPanel;
     }
 }
-
-

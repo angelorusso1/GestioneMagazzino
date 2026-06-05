@@ -1,35 +1,35 @@
 package entity;
 
 import database.*;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class CatalogoProdotti {
 
 	private GestorePersistenza gestorePersistenza;
+	// Lista interna in-memory per tracciare i prodotti e consentire la simulazione dei metodi
+	private List<Prodotto> listaProdotti;
 
-	/**
-	 * 
-	 * @param prodotto
-	 * @param quantita
-	 */
-	public void aggiungiQuantitaProdotto(Prodotto prodotto, int quantita) {
-		// TODO - implement CatalogoProdotti.aggiungiQuantitaProdotto
-		throw new UnsupportedOperationException();
+	// Costruttore inserito per inizializzare la struttura di contenimento ed evitare NullPointerException
+	public CatalogoProdotti() {
+		this.listaProdotti = new ArrayList<>();
 	}
 
-	/**
-	 * 
-	 * @param codice
-	 */
+
 	public boolean verificaUnivocitaCodice(String codice) {
-		// TODO - implement CatalogoProdotti.verificaUnivocitaCodice
-		throw new UnsupportedOperationException();
+		for (Prodotto p : this.listaProdotti) {
+			if (p.getCodice() != null && p.getCodice().equals(codice)) {
+				return false; // Trovato un duplicato, il codice non è univoco
+			}
+		}
+		return true; // Nessun duplicato trovato, il codice può essere utilizzato
 	}
 
 	/**
-	 * 
-	 * @param codice
+	 * Implementazione del Caso d'Uso: Creazione Prodotti.
+	 * Riceve i parametri atomici inviati dal MagazzinoController, istanzia internamente
+	 * l'oggetto entità Prodotto con quantità iniziale configurata e lo memorizza nel sistema.
+	 * * @param codice
 	 * @param nome
 	 * @param Descrizione
 	 * @param posizione
@@ -38,7 +38,26 @@ public class CatalogoProdotti {
 	 * @param quantita
 	 */
 	public void aggiungiProdotto(String codice, String nome, String Descrizione, Posizione posizione, Categoria categoria, int soglia, int quantita) {
-		// TODO - implement CatalogoProdotti.aggiungiProdotto
+		// Creazione dell'istanza dell'entità Prodotto sfruttando il suo costruttore di business
+		Prodotto nuovoProdotto = new Prodotto(codice, nome, Descrizione, soglia, categoria, posizione);
+
+		// Se nel flusso la quantità iniziale venisse forzata a un valore diverso da 0
+		if (quantita > 0) {
+			nuovoProdotto.setQuantitaDisponibile(quantita);
+		}
+
+		// Aggiunta dell'oggetto all'elenco dei prodotti del catalogo
+		this.listaProdotti.add(nuovoProdotto);
+
+		System.out.println("[ENTITÀ CATALOGO] Nuovo oggetto Prodotto registrato internamente.");
+	}
+
+	/**
+	 * * @param prodotto
+	 * @param quantita
+	 */
+	public void aggiungiQuantitaProdotto(Prodotto prodotto, int quantita) {
+		// TODO - implement CatalogoProdotti.aggiungiQuantitaProdotto
 		throw new UnsupportedOperationException();
 	}
 
@@ -48,8 +67,8 @@ public class CatalogoProdotti {
 	}
 
 	public List<Prodotto> getCatalogoCompleto() {
-		// TODO - implement CatalogoProdotti.getCatalogoCompleto
-		throw new UnsupportedOperationException();
+		// Ritorniamo la lista interna per consentire eventuali operazioni di lettura globali
+		return this.listaProdotti;
 	}
 
 	public List<Prodotto> getCatalogoSottoScorta() {
@@ -58,8 +77,7 @@ public class CatalogoProdotti {
 	}
 
 	/**
-	 * 
-	 * @param nuovoNome
+	 * * @param nuovoNome
 	 * @param nuovaDescrizione
 	 * @param nuovaPosizione
 	 * @param nuovaSoglia
@@ -73,8 +91,7 @@ public class CatalogoProdotti {
 	}
 
 	/**
-	 * 
-	 * @param prodotto
+	 * * @param prodotto
 	 * @param quantita
 	 */
 	public void sottraiProdotto(Prodotto prodotto, int quantita) {
@@ -83,8 +100,7 @@ public class CatalogoProdotti {
 	}
 
 	/**
-	 * 
-	 * @param codice
+	 * * @param codice
 	 */
 	public List<Prodotto> cercaCodice(String codice) {
 		// TODO - implement CatalogoProdotti.cercaCodice
@@ -92,8 +108,7 @@ public class CatalogoProdotti {
 	}
 
 	/**
-	 * 
-	 * @param nome
+	 * * @param nome
 	 */
 	public List<Prodotto> cercaNome(String nome) {
 		// TODO - implement CatalogoProdotti.cercaNome
@@ -101,8 +116,7 @@ public class CatalogoProdotti {
 	}
 
 	/**
-	 * 
-	 * @param categoria
+	 * * @param categoria
 	 */
 	public List<Prodotto> cercaCategoria(Categoria categoria) {
 		// TODO - implement CatalogoProdotti.cercaCategoria
@@ -110,12 +124,10 @@ public class CatalogoProdotti {
 	}
 
 	/**
-	 * 
-	 * @param posizione
+	 * * @param posizione
 	 */
 	public List<Prodotto> cercaPosizione(Posizione posizione) {
 		// TODO - implement CatalogoProdotti.cercaPosizione
 		throw new UnsupportedOperationException();
 	}
-
 }
