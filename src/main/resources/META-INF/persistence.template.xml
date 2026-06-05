@@ -15,6 +15,7 @@
         <class>entity.Prodotto</class>
         <class>entity.Posizione</class>
         <class>entity.Utente</class>
+        <class>entity.Notifica</class>
 
         <class>entity.Operatore</class>
         <class>entity.Responsabile</class>
