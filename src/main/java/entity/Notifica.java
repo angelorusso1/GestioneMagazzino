@@ -10,9 +10,11 @@ public class Notifica {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String messaggio;
     private LocalDate dataEmissione;
 
+    @ManyToOne
+    @JoinColumn(name = "prodotto_id")
+    private Prodotto prodotto;
 
     //costruttore vuoto
     public Notifica() {
@@ -20,8 +22,11 @@ public class Notifica {
     }
 
     //costruttore
-    public Notifica(String messaggio, LocalDate dataEmissione) {
-        this.messaggio = messaggio;
-        this.dataEmissione = dataEmissione;
+    public Notifica(Prodotto prodotto) {
+        this.prodotto = prodotto;
+        this.dataEmissione = LocalDate.now();
     }
+
+    public LocalDate getDataEmissione() { return dataEmissione; } // <-- Ritorna LocalDate
+    public Prodotto getProdotto() { return prodotto; }
 }

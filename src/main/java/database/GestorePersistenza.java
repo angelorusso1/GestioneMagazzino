@@ -1,5 +1,6 @@
 package database;
 
+import entity.Notifica;
 import entity.Utente;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -303,6 +304,13 @@ public class GestorePersistenza {
 		} finally {
 			em.close(); //chiudiamo l'EntityManager temporaneo
 		}
+	}
+
+	public List<Notifica> recuperaNotificheOrdinatePerData() {
+		EntityManager em = JpaUtil.getInstance().getEntityManager();
+		String jpql = "SELECT n FROM Notifica n ORDER BY n.dataEmissione ASC";
+		TypedQuery<Notifica> query = em.createQuery(jpql, Notifica.class);
+		return query.getResultList();
 	}
 
 }

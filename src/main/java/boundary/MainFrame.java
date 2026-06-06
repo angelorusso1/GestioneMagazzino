@@ -42,7 +42,7 @@ public class MainFrame {
             btnVisualizzaNotifiche.setVisible(false);
         }
 
-        // 3. LISTENER RICHIESTO: Gestione del click sul pulsante "Crea Prodotto"
+        // 3. Listener per la gestione del click sul pulsante "Crea Prodotto"
         if (btnCreaProdotto != null) {
             btnCreaProdotto.addActionListener(new ActionListener() {
                 @Override
@@ -78,6 +78,21 @@ public class MainFrame {
                 }
             });
         }
+
+        if (btnVisualizzaNotifiche != null) {
+            btnVisualizzaNotifiche.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Creiamo un'istanza del controller e gli deleghiamo l'apertura coordinata della finestra
+                    MagazzinoController controllerNotifiche = new MagazzinoController((SchermataRegistrazione) null);
+
+                    SchermataNotifiche schermataNotifiche = new SchermataNotifiche();
+
+                    controllerNotifiche.apriSchermataNotifiche();
+                }
+            });
+        }
+
     }
 
     /**

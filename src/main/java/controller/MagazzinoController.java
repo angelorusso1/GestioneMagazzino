@@ -1,17 +1,16 @@
 package controller;
 
-import boundary.MainFrame;
-import boundary.SchermataLogin;
-import boundary.SchermataRegistrazione;
-import boundary.SchermataCatalogoProdotti;
+import boundary.*;
 import entity.*;
 import java.time.LocalDate;
+import java.util.List;
 import javax.swing.*;
 
 public class MagazzinoController {
 
 	private SchermataRegistrazione schermata;
 	private SchermataLogin schermataLogin;
+	private SchermataNotifiche schermataNotifiche;
 
 	private CatalogoProdotti catalogoProdotti = new CatalogoProdotti();
 
@@ -21,6 +20,10 @@ public class MagazzinoController {
 
 	public MagazzinoController(SchermataLogin schermataLogin) {
 		this.schermataLogin = schermataLogin;
+	}
+
+	public MagazzinoController(SchermataNotifiche schermataNotifiche) {
+		this.schermataNotifiche = schermataNotifiche;
 	}
 
 	public void richiediAccesso(String nome, String cognome, String email) {
@@ -122,5 +125,25 @@ public class MagazzinoController {
 
 	public void richiediRicercaPoszione(Posizione posizione) {
 		throw new UnsupportedOperationException();
+	}
+
+	public void apriSchermataNotifiche() {
+		GestioneNotifiche gestioneNotifiche = new GestioneNotifiche();
+
+		// 1. Chiediamo le notifiche al database
+		List<Notifica> notifiche = gestioneNotifiche.getNotificheInOrdineCrescente();
+
+		// 2. Creiamo la schermata
+		SchermataNotifiche schermata = new SchermataNotifiche();
+
+		// 3. Riempiamo la tabella
+		schermata.popolaTabellaNotifiche(notifiche);
+
+		// 4. Apriamo la finestra
+		JFrame frame = new JFrame("Notifiche Sotto Scorta");
+		frame.setContentPane(schermata.getMainPanel());
+		frame.setSize(600, 400);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
 	}
 }
