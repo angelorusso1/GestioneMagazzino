@@ -13,6 +13,7 @@ public class CatalogoProdotti {
 	//Costruttore inserito per inizializzare la struttura di contenimento ed evitare NullPointerException
 	public CatalogoProdotti() {
 		this.listaProdotti = new ArrayList<>();
+		this.gestorePersistenza = new GestorePersistenza();
 	}
 
 
@@ -37,7 +38,7 @@ public class CatalogoProdotti {
 	 * @param soglia
 	 * @param quantita
 	 */
-	public void aggiungiProdotto(String codice, String nome, String Descrizione, Posizione posizione, Categoria categoria, int soglia, int quantita) {
+	public boolean aggiungiProdotto(String codice, String nome, String Descrizione, Posizione posizione, Categoria categoria, int soglia, int quantita) {
 		//Creazione dell'istanza dell'entità Prodotto sfruttando il suo costruttore
 		Prodotto nuovoProdotto = new Prodotto(codice, nome, Descrizione, soglia, categoria, posizione);
 
@@ -46,10 +47,18 @@ public class CatalogoProdotti {
 			nuovoProdotto.setQuantitaDisponibile(quantita);
 		}
 
-		//Aggiunta dell'oggetto all'elenco dei prodotti del catalogo
-		this.listaProdotti.add(nuovoProdotto);
+		//Salva il nuovo prodotto sul DB
+		boolean salvatoSuDb = gestorePersistenza.salva(nuovoProdotto);
 
-		System.out.println("[ENTITÀ CATALOGO] Nuovo oggetto Prodotto registrato internamente.");
+		if (salvatoSuDb) {
+			// Aggiunta alla lista in memoria
+			this.listaProdotti.add(nuovoProdotto);
+			System.out.println("[DB] Nuovo oggetto Prodotto salvato con successo.");
+			return true; // Diciamo al Controller che è andato tutto bene
+		} else {
+			System.out.println("[ERRORE] Fallimento nel salvataggio.");
+			return false; // Diciamo al Controller che c'è stato un problema
+		}
 	}
 
 	/**
