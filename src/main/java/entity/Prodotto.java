@@ -16,12 +16,12 @@ public class Prodotto {
 	private int quantitaDisponibile = 0;
 
 	//Relazione: Molti Prodotti appartengono a una Categoria
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL) //serve a creare la tabella Categoria a cascata dalla creazione di un prodotto
 	@JoinColumn(name = "categoria_id")
 	private Categoria categoria;
 
 	//Relazione: Molti Prodotti sono collocati in una Posizione
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL) //serve a creare la tabella Posizione a cascata dalla creazione di un prodotto
 	@JoinColumn(name = "posizione_id")
 	private Posizione posizione;
 

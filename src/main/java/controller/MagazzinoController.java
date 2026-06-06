@@ -58,8 +58,13 @@ public class MagazzinoController {
 		if (!isUnivoco) {
 			boundary.messaggioConferma("ATTENZIONE: Il codice " + codice + " esiste già. Creazione annullata.");
 		} else {
-			catalogoProdotti.aggiungiProdotto(codice, nome, descrizione, posizione, categoria, soglia, 0);
-			boundary.messaggioConferma("Prodotto '" + nome + "' inserito correttamente nel catalogo del magazzino.");
+			boolean successo = catalogoProdotti.aggiungiProdotto(codice, nome, descrizione, posizione, categoria, soglia, 0);
+
+			if (successo) {
+				boundary.messaggioConferma("Prodotto '" + nome + "' inserito correttamente nel catalogo del magazzino.");
+			} else {
+				boundary.messaggioConferma("ERRORE: Impossibile salvare il prodotto nel database. Riprova.");
+			}
 		}
 	}
 
