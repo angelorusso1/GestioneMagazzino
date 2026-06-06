@@ -1,26 +1,29 @@
 package controller;
 
-import boundary.MainFrame;
-import boundary.SchermataLogin;
-import boundary.SchermataRegistrazione;
-import boundary.SchermataCatalogoProdotti;
+import boundary.*;
 import entity.*;
 import java.time.LocalDate;
+import java.util.List;
 import javax.swing.*;
 
 public class MagazzinoController {
 
-	private SchermataRegistrazione schermata;
+	private SchermataRegistrazione schermataRegistrazione;
 	private SchermataLogin schermataLogin;
+	private SchermataNotifiche schermataNotifiche;
 
 	private CatalogoProdotti catalogoProdotti = new CatalogoProdotti();
 
 	public MagazzinoController(SchermataRegistrazione schermata) {
-		this.schermata = schermata;
+		this.schermataRegistrazione = schermata;
 	}
 
 	public MagazzinoController(SchermataLogin schermataLogin) {
 		this.schermataLogin = schermataLogin;
+	}
+
+	public MagazzinoController(SchermataNotifiche schermataNotifiche) {
+		this.schermataNotifiche = schermataNotifiche;
 	}
 
 	public void richiediAccesso(String nome, String cognome, String email) {
@@ -53,7 +56,6 @@ public class MagazzinoController {
 		boolean isUnivoco = catalogoProdotti.verificaUnivocitaCodice(codice);
 
 		if (!isUnivoco) {
-			// RISOLTO: Usiamo messaggioConferma per notificare l'errore a schermo senza creare nuovi metodi
 			boundary.messaggioConferma("ATTENZIONE: Il codice " + codice + " esiste già. Creazione annullata.");
 		} else {
 			catalogoProdotti.aggiungiProdotto(codice, nome, descrizione, posizione, categoria, soglia, 0);
@@ -90,9 +92,9 @@ public class MagazzinoController {
 		boolean esito = gestioneUtenti.registraDati(nome, cognome, email, ruolo);
 
 		if (esito) {
-			schermata.messaggioConferma("Utente registrato con successo nel database!");
+			schermataRegistrazione.messaggioConferma("Utente registrato con successo nel database!");
 		} else {
-			schermata.messaggioErrore("Errore durante la registrazione dell'utente.");
+			schermataRegistrazione.messaggioErrore("Errore durante la registrazione dell'utente.");
 		}
 	}
 
@@ -122,5 +124,39 @@ public class MagazzinoController {
 
 	public void richiediRicercaPoszione(Posizione posizione) {
 		throw new UnsupportedOperationException();
+	}
+
+	public void apriSchermataCreaProdotto() {
+		SchermataCatalogoProdotti schermataCatalogo = new SchermataCatalogoProdotti(this);
+
+		// Creazione e configurazione della finestra
+		JFrame frameCatalogo = new JFrame("Creazione Nuovo Prodotto");
+		frameCatalogo.setContentPane(schermataCatalogo.getMainPanel());
+		frameCatalogo.pack();
+		frameCatalogo.setSize(500, 600);
+
+		// Impostando null, la finestra apparirà perfettamente al centro dello schermo
+		frameCatalogo.setLocationRelativeTo(null);
+		frameCatalogo.setVisible(true);
+	}
+
+	public void apriSchermataNotifiche() {
+		GestioneNotifiche gestioneNotifiche = new GestioneNotifiche();
+
+		//Chiediamo le notifiche al database
+		List<Notifica> notifiche = gestioneNotifiche.getNotificheInOrdineCrescente();
+
+		//Creiamo la schermata
+		SchermataNotifiche schermata = new SchermataNotifiche();
+
+		//Riempiamo la tabella
+		schermata.popolaTabellaNotifiche(notifiche);
+
+		//Apriamo la finestra
+		JFrame frame = new JFrame("Notifiche Sotto Scorta");
+		frame.setContentPane(schermata.getMainPanel());
+		frame.setSize(600, 400);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
 	}
 }

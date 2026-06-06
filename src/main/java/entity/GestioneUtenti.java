@@ -5,6 +5,8 @@ import entity.Operatore;
 import entity.Responsabile;
 import entity.Ruolo;
 
+import java.util.List;
+
 public class GestioneUtenti {
 
 	private GestorePersistenza gestorePersistenza;
@@ -31,12 +33,9 @@ public class GestioneUtenti {
 		responsabile.setEmail(email);
 
 		GestorePersistenza gp = new GestorePersistenza();
-		// Il metodo "salva" del tuo prof probabilmente restituisce già un boolean.
-		// Se così fosse, basta usare "return" qui davanti:
 		return gp.salva(responsabile);
 	}
 
-	// 3. Cambia da void a boolean
 	private boolean registraOperatore(String nome, String cognome, String email) {
 		Operatore operatore = new Operatore();
 		operatore.setNome(nome);
@@ -48,8 +47,6 @@ public class GestioneUtenti {
 	}
 
 	public Utente verificaCredenziali(String nome, String cognome, String email) {
-		// Qui in futuro potresti aggiungere logiche di business
-		// (es. controllare se l'utente è stato "sospeso" prima di farlo entrare)
 
 		GestorePersistenza gp = new GestorePersistenza();
 		return gp.cercaUtentePerLogin(nome, cognome, email);

@@ -1,5 +1,6 @@
 package database;
 
+import entity.Notifica;
 import entity.Utente;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -286,23 +287,31 @@ public class GestorePersistenza {
 	public Utente cercaUtentePerLogin(String nome, String cognome, String email) {
 		EntityManager em = JpaUtil.getInstance().getEntityManager();
 		try {
-			// Creiamo una query JPQL per cercare l'utente
+			//Creiamo una query JPQL per cercare l'utente
 			String jpql = "SELECT u FROM Utente u WHERE u.Nome = :nome AND u.Cognome = :cognome AND u.Email = :email";
 			TypedQuery<Utente> query = em.createQuery(jpql, Utente.class);
 
-			// Impostiamo i parametri in modo sicuro (evita SQL Injection)
+			//Impostiamo i parametri in modo sicuro (evita SQL Injection)
 			query.setParameter("nome", nome);
 			query.setParameter("cognome", cognome);
 			query.setParameter("email", email);
 
-			// Restituisce l'utente trovato
+			//Restituisce l'utente trovato
 			return query.getSingleResult();
 		} catch (NoResultException e) {
-			// Se l'utente non esiste nel database, JPA lancia questa eccezione: restituiamo null
+			//Se l'utente non esiste nel database, JPA lancia questa eccezione: restituiamo null
 			return null;
 		} finally {
 			em.close(); //chiudiamo l'EntityManager temporaneo
 		}
+	}
+
+	//Recupera dal database la lista delle notifiche in ordine Crescente di Data
+	public List<Notifica> recuperaNotificheOrdinatePerData() {
+		EntityManager em = JpaUtil.getInstance().getEntityManager();
+		String jpql = "SELECT n FROM Notifica n ORDER BY n.dataEmissione ASC";
+		TypedQuery<Notifica> query = em.createQuery(jpql, Notifica.class);
+		return query.getResultList();
 	}
 
 }

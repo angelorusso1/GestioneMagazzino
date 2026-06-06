@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GestioneNotifiche {
 
-    private GestorePersistenza gesstorePersistenza;
+    private GestorePersistenza gestorePersistenza;
 
 
     //metodo chiamato dal controller per inviare una notifica
@@ -15,9 +15,8 @@ public class GestioneNotifiche {
         throw new UnsupportedOperationException();
     }
 
-    //restituisce la lista delle notifiche presenti
-    public List<Notifica> getNotifiche(){
-        // TODO - implement GestioneNotifiche.getNotifiche
-        throw new UnsupportedOperationException();
+    public List<Notifica> getNotificheInOrdineCrescente() {
+        GestorePersistenza gp = new GestorePersistenza();
+        return gp.recuperaNotificheOrdinatePerData();
     }
 }
