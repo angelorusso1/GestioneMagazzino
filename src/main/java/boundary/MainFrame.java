@@ -24,10 +24,10 @@ public class MainFrame {
      */
     public MainFrame(Utente utenteLoggato) {
 
-        // 1. Personalizziamo il messaggio di benvenuto dinamico
+        //Messaggio di benvenuto dinamico
         lblBenvenuto.setText("Dashboard di: " + utenteLoggato.getNome() + " " + utenteLoggato.getCognome());
 
-        // 2. Controllo dei Permessi basato sul pattern di ereditarietà del dominio
+        //Controllo dei Permessi basato sul pattern di ereditarietà del dominio
         if (utenteLoggato instanceof Responsabile) {
             // Il Responsabile può creare prodotti e vedere le analisi, ma non scaricare le merci direttamente
             btnCreaProdotto.setVisible(true);
@@ -42,51 +42,36 @@ public class MainFrame {
             btnVisualizzaNotifiche.setVisible(false);
         }
 
-        // 3. Listener per la gestione del click sul pulsante "Crea Prodotto"
+        //Listener per la gestione del click sul pulsante "Crea Prodotto"
         if (btnCreaProdotto != null) {
             btnCreaProdotto.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     MagazzinoController controllerCatalogo = new MagazzinoController((SchermataRegistrazione) null);
-
-                    SchermataCatalogoProdotti schermataCatalogo = new SchermataCatalogoProdotti(controllerCatalogo);
-
-                    JFrame frameCatalogo = new JFrame("Creazione Nuovo Prodotto");
-
-                    frameCatalogo.setContentPane(schermataCatalogo.getMainPanel());
-
-                    frameCatalogo.setSize(500, 600);
-
-                    frameCatalogo.pack();
-                    frameCatalogo.setSize(500, 600);
-
-                    frameCatalogo.setLocationRelativeTo(mainPanel);
-                    frameCatalogo.setVisible(true);
+                    controllerCatalogo.apriSchermataCreaProdotto();
                 }
             });
         }
 
-        // 4. Listener per la gestione del Logout del personale
+        //Listener per la gestione del click sul pulsante "Logout"
         if (btnLogout != null) {
             btnLogout.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // Chiude la dashboard corrente liberando le risorse grafiche
                     chiudiFinestra();
-                    // Inoca il punto di ingresso statico del menu principale per un nuovo accesso
+                    // Invoca il punto di ingresso statico del menu principale per un nuovo accesso
                     SchermataIniziale.main(new String[]{});
                 }
             });
         }
 
+        //Listener per la gestione del click sul pulsante "Visualizza Notifiche"
         if (btnVisualizzaNotifiche != null) {
             btnVisualizzaNotifiche.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // Creiamo un'istanza del controller e gli deleghiamo l'apertura coordinata della finestra
                     MagazzinoController controllerNotifiche = new MagazzinoController((SchermataRegistrazione) null);
-
-                    SchermataNotifiche schermataNotifiche = new SchermataNotifiche();
 
                     controllerNotifiche.apriSchermataNotifiche();
                 }

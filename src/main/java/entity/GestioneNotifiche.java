@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GestioneNotifiche {
 
-    private GestorePersistenza gesstorePersistenza;
+    private GestorePersistenza gestorePersistenza;
 
 
     //metodo chiamato dal controller per inviare una notifica

@@ -11,7 +11,7 @@ public class SchermataIniziale {
 
     public SchermataIniziale() {
 
-        // 1. CLICK SU REGISTRAZIONE
+        //Listener che gestisce il click sul pulsante "Registrati"
         btnRegistrati.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -26,7 +26,7 @@ public class SchermataIniziale {
             }
         });
 
-        // 2. CLICK SU ACCESSO
+        //Listener che gestisce il click sul pulsante "Accedi"
         btnAccedi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

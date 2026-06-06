@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 
 public class SchermataCatalogoProdotti {
 
-    // Questi componenti ora corrispondono esattamente a quelli legati nel tuo .form
     private JPanel mainPanel;
     private JTextField txtCodice;
     private JTextField txtNome;
@@ -27,7 +26,7 @@ public class SchermataCatalogoProdotti {
     public SchermataCatalogoProdotti(MagazzinoController magazzinoController) {
         this.magazzinoController = magazzinoController;
 
-        // Listener agganciato al pulsante che hai chiamato "btnSalva" nelle proprietà
+        //Listener agganciato al pulsante "btnSalva"
         btnSalva.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -38,13 +37,13 @@ public class SchermataCatalogoProdotti {
     }
 
     public void creaNuovoProdotto() {
-        // Richiamo logico dell'inserimento dati
+        //Richiamo logico dell'inserimento dati
         inserisciDati();
     }
 
     public void inserisciDati() {
         try {
-            // Estrazione sicura del testo digitato dall'utente nella tua griglia grafica
+            //Estrazione sicura del testo digitato dall'utente nella griglia grafica
             String codice = txtCodice.getText().trim();
             String nome = txtNome.getText().trim();
             String descrizione = txtDescrizione.getText().trim();
@@ -58,17 +57,17 @@ public class SchermataCatalogoProdotti {
             String area = txtArea.getText().trim();
             Posizione posizione = new Posizione(scaffale, area);
 
-            // Validazione locale prima dell'invio al sistema
+            //Validazione locale prima dell'invio al sistema
             if (codice.isEmpty() || nome.isEmpty()) {
                 messaggioConferma("ATTENZIONE: I campi Codice e Nome sono obbligatori per procedere.");
                 return;
             }
 
-            // Inoltro formale dei dati al cervello del sistema passandogli la schermata corrente (this)
+            //Inoltro formale dei dati al controller passandogli la schermata corrente (this)
             this.magazzinoController.richiediCreazioneProdotto(codice, nome, descrizione, categoria, soglia, posizione, this);
 
         } catch (NumberFormatException ex) {
-            // Gestione dell'errore di digitazione se l'utente inserisce lettere nei campi numerici
+            //Gestione dell'errore di digitazione se l'utente inserisce lettere nei campi numerici
             messaggioConferma("ERRORE: I campi 'Soglia Minima' e 'Numero Scaffale' richiedono un numero intero.");
         }
     }
@@ -77,10 +76,10 @@ public class SchermataCatalogoProdotti {
      * Riceve il messaggio di ritorno dal Controller e genera un popup grafico Swing
      */
     public void messaggioConferma(String messaggio) {
-        // Mostra un popup nativo centrato sul pannello principale
+        //Mostra un popup nativo centrato sul pannello principale
         JOptionPane.showMessageDialog(mainPanel, messaggio, "Notifica Sistema", JOptionPane.INFORMATION_MESSAGE);
 
-        // Se l'operazione è andata a buon fine, svuotiamo la griglia per un eventuale nuovo inserimento
+        //Se l'operazione è andata a buon fine, svuotiamo la griglia per un eventuale nuovo inserimento
         if (messaggio.contains("inserito correttamente")) {
             pulisciCampiGrafici();
         }

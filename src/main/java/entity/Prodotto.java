@@ -15,12 +15,12 @@ public class Prodotto {
 	private int sogliaMinima;
 	private int quantitaDisponibile = 0;
 
-	// Relazione: Molti Prodotti appartengono a una Categoria
+	//Relazione: Molti Prodotti appartengono a una Categoria
 	@ManyToOne
 	@JoinColumn(name = "categoria_id")
 	private Categoria categoria;
 
-	// Relazione: Molti Prodotti sono collocati in una Posizione
+	//Relazione: Molti Prodotti sono collocati in una Posizione
 	@ManyToOne
 	@JoinColumn(name = "posizione_id")
 	private Posizione posizione;
@@ -104,7 +104,6 @@ public class Prodotto {
 		this.posizione = posizione;
 	}
 
-	// --- METODI DI BUSINESS DA IMPLEMENTARE ---
 
 	public boolean isSottoScorta() {
 		return this.quantitaDisponibile < this.sogliaMinima;

@@ -1,4 +1,4 @@
-package setup; // Cambialo se l'hai messa in un pacchetto diverso
+package setup;
 
 import database.JpaUtil;
 import jakarta.persistence.EntityManager;
@@ -10,14 +10,14 @@ public class CreazioneTabelle {
         try {
             System.out.println("Lettura del persistence.xml e creazione delle tabelle in corso...");
 
-            // Chiamando il JpaUtil, forziamo l'avvio del motore di Hibernate.
-            // Hibernate si collega a MySQL e genera la struttura
+            //Chiamando il JpaUtil, forziamo l'avvio del motore di Hibernate.
+            //Hibernate si collega a MySQL e genera la struttura
             EntityManager em = JpaUtil.getInstance().getEntityManager();
 
             System.out.println("Connessione stabilita con successo!");
             System.out.println("Le tabelle dovrebbero essere pronte nel database.");
 
-            // Chiudiamo le connessioni
+            //Chiudiamo le connessioni
             em.close();
             JpaUtil.getInstance().chiudi();
             System.out.println("Test completato senza errori.");

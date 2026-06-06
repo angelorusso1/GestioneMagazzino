@@ -20,7 +20,7 @@ public class SchermataNotifiche {
     public SchermataNotifiche() {
         this.magazzinoController = new MagazzinoController(this);
 
-        // Listener per chiudere la finestra
+        //Listener per chiudere la finestra
         btnChiudi.addActionListener(e -> {
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
             if (frame != null) frame.dispose();
@@ -28,10 +28,10 @@ public class SchermataNotifiche {
     }
 
     public void popolaTabellaNotifiche(List<Notifica> listaNotifiche) {
-        // 1. Definiamo i titoli delle colonne richiesti da te
+        //Definiamo i titoli delle colonne
         String[] colonne = {"Data", "Prodotto", "Q.tà Disponibile", "Soglia Minima"};
 
-        // 2. Creiamo il modello della tabella (impedendo la modifica diretta delle celle)
+        //Creiamo il modello della tabella (impedendo la modifica diretta delle celle)
         DefaultTableModel modello = new DefaultTableModel(colonne, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -39,10 +39,10 @@ public class SchermataNotifiche {
             }
         };
 
-        // Formato data leggibile (es: 06/06/2026 12:00)
+        //Formato data leggibile (GG/MM/YYYY HH:mm)
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-        // 3. Inseriamo i dati riga per riga navigando l'oggetto Prodotto
+        //Inseriamo i dati riga per riga navigando l'oggetto Prodotto
         for (Notifica n : listaNotifiche) {
             Object[] riga = new Object[4];
             riga[0] = n.getDataEmissione().format(formatter);
@@ -53,14 +53,8 @@ public class SchermataNotifiche {
             modello.addRow(riga);
         }
 
-        // 4. Agganciamo il modello ricco di dati alla JTable grafica
+        //Agganciamo il modello con i dati alla JTable grafica
         tableNotifiche.setModel(modello);
-    }
-
-    public void mostraNotifiche(List<Notifica> notifiche)
-    {
-        // TODO - implement SchermataNotifiche.mostraNotifiche
-        throw new UnsupportedOperationException();
     }
 
     public JPanel getMainPanel() {

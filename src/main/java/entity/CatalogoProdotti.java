@@ -7,10 +7,10 @@ import java.util.List;
 public class CatalogoProdotti {
 
 	private GestorePersistenza gestorePersistenza;
-	// Lista interna in-memory per tracciare i prodotti e consentire la simulazione dei metodi
+	//Lista interna in-memory per tracciare i prodotti e consentire la simulazione dei metodi
 	private List<Prodotto> listaProdotti;
 
-	// Costruttore inserito per inizializzare la struttura di contenimento ed evitare NullPointerException
+	//Costruttore inserito per inizializzare la struttura di contenimento ed evitare NullPointerException
 	public CatalogoProdotti() {
 		this.listaProdotti = new ArrayList<>();
 	}
@@ -19,10 +19,10 @@ public class CatalogoProdotti {
 	public boolean verificaUnivocitaCodice(String codice) {
 		for (Prodotto p : this.listaProdotti) {
 			if (p.getCodice() != null && p.getCodice().equals(codice)) {
-				return false; // Trovato un duplicato, il codice non è univoco
+				return false; //Trovato un duplicato, il codice non è univoco
 			}
 		}
-		return true; // Nessun duplicato trovato, il codice può essere utilizzato
+		return true; //Nessun duplicato trovato, il codice può essere utilizzato
 	}
 
 	/**
@@ -38,15 +38,15 @@ public class CatalogoProdotti {
 	 * @param quantita
 	 */
 	public void aggiungiProdotto(String codice, String nome, String Descrizione, Posizione posizione, Categoria categoria, int soglia, int quantita) {
-		// Creazione dell'istanza dell'entità Prodotto sfruttando il suo costruttore di business
+		//Creazione dell'istanza dell'entità Prodotto sfruttando il suo costruttore
 		Prodotto nuovoProdotto = new Prodotto(codice, nome, Descrizione, soglia, categoria, posizione);
 
-		// Se nel flusso la quantità iniziale venisse forzata a un valore diverso da 0
+		//Se nel flusso la quantità iniziale venisse forzata a un valore diverso da 0
 		if (quantita > 0) {
 			nuovoProdotto.setQuantitaDisponibile(quantita);
 		}
 
-		// Aggiunta dell'oggetto all'elenco dei prodotti del catalogo
+		//Aggiunta dell'oggetto all'elenco dei prodotti del catalogo
 		this.listaProdotti.add(nuovoProdotto);
 
 		System.out.println("[ENTITÀ CATALOGO] Nuovo oggetto Prodotto registrato internamente.");
@@ -67,7 +67,7 @@ public class CatalogoProdotti {
 	}
 
 	public List<Prodotto> getCatalogoCompleto() {
-		// Ritorniamo la lista interna per consentire eventuali operazioni di lettura globali
+		//Ritorniamo la lista interna per consentire eventuali operazioni di lettura globali
 		return this.listaProdotti;
 	}
 

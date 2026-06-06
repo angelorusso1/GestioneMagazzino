@@ -22,12 +22,11 @@ public class SchermataRegistrazione {
     private MagazzinoController controller;
 
     public SchermataRegistrazione() {
-        // Collego la schermata al controller passandogli "this" (se stessa)
         this.controller = new MagazzinoController(this);
 
         cmbRuolo.setModel(new DefaultComboBoxModel<>(Ruolo.values()));
 
-        // compilaDati (quando l'utente preme il bottone Salva)
+        //compilaDati (quando l'utente preme il bottone Salva)
         btnSalva.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -38,7 +37,7 @@ public class SchermataRegistrazione {
 
                 Ruolo ruoloSelected = (Ruolo) cmbRuolo.getSelectedItem();
 
-                // Chiamio il metodo del controller passandogli le informazioni
+                //Chiamo il metodo del controller passandogli le informazioni
                 controller.richiediRegistrazione(nome, cognome, email, ruoloSelected);
             }
         });
@@ -49,10 +48,10 @@ public class SchermataRegistrazione {
      * @param messaggio
      */
     public void messaggioConferma(String messaggio) {
-        // Mostra il pop-up con l'icona "Informazione"
+        //Mostra il pop-up con l'icona "Informazione"
         JOptionPane.showMessageDialog(mainPanel, messaggio, "Registrazione Completata", JOptionPane.INFORMATION_MESSAGE);
 
-        // Chiude la finestra e torna al menu principale
+        //Chiude la finestra e torna al menu principale
         JFrame finestraCorrente = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
         if (finestraCorrente != null) {
             finestraCorrente.dispose();
@@ -64,10 +63,10 @@ public class SchermataRegistrazione {
      * @param messaggio
      */
     public void messaggioErrore(String messaggio) {
-        // Mostra il pop-up con l'icona "Errore" (la X rossa)
+        //Mostra il pop-up con l'icona "Errore" (la X rossa)
         JOptionPane.showMessageDialog(mainPanel, messaggio, "Errore di Registrazione", JOptionPane.ERROR_MESSAGE);
 
-        // Svuota i campi per far riprovare l'utente, ma NON chiude la finestra
+        //Svuota i campi per far riprovare l'utente, ma non chiude la finestra
         txtNome.setText("");
         txtCognome.setText("");
         txtEmail.setText("");

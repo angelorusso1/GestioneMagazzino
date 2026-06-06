@@ -36,7 +36,6 @@ public class GestioneUtenti {
 		return gp.salva(responsabile);
 	}
 
-	// 3. Cambia da void a boolean
 	private boolean registraOperatore(String nome, String cognome, String email) {
 		Operatore operatore = new Operatore();
 		operatore.setNome(nome);

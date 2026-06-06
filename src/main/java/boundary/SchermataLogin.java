@@ -30,7 +30,7 @@ public class SchermataLogin {
                 String cognome = txtCognome.getText().trim();
                 String email = txtEmail.getText().trim();
 
-                // Validazione base
+                //Validazione base
                 if (nome.isEmpty() || cognome.isEmpty() || email.isEmpty()) {
                     messaggioErrore("Tutti i campi sono obbligatori!");
                     return;
