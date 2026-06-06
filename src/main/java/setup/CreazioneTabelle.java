@@ -3,7 +3,7 @@ package setup; // Cambialo se l'hai messa in un pacchetto diverso
 import database.JpaUtil;
 import jakarta.persistence.EntityManager;
 
-public class TestMain {
+public class CreazioneTabelle {
     public static void main(String[] args) {
         System.out.println("Avvio del test di connessione a MySQL...");
 

@@ -16,6 +16,7 @@ public class MainFrame {
     private JButton btnVisualizzaAnalisiMagazzino;
     private JButton btnLogout;
     private JButton btnEffettuaScarico;
+    private JButton btnVisualizzaNotifiche;
 
     /**
      * Costruttore della Dashboard principale
@@ -32,11 +33,13 @@ public class MainFrame {
             btnCreaProdotto.setVisible(true);
             btnVisualizzaAnalisiMagazzino.setVisible(true);
             btnEffettuaScarico.setVisible(false);
+            btnVisualizzaNotifiche.setVisible(true);
         } else if (utenteLoggato instanceof Operatore) {
             // L'Operatore può solo effettuare lo scarico fisico dei colli dal magazzino
             btnCreaProdotto.setVisible(false);
             btnVisualizzaAnalisiMagazzino.setVisible(false);
             btnEffettuaScarico.setVisible(true);
+            btnVisualizzaNotifiche.setVisible(false);
         }
 
         // 3. LISTENER RICHIESTO: Gestione del click sul pulsante "Crea Prodotto"

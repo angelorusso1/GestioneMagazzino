@@ -5,7 +5,7 @@ import database.JpaUtil;
 import entity.Operatore;
 import entity.Responsabile;
 
-public class PopolaDatabase {
+public class PopolaDatabaseProva {
     public static void main(String[] args) {
         System.out.println("Avvio popolamento database con utenti di prova...");
 
