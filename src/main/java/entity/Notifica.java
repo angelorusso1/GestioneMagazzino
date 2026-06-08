@@ -2,7 +2,7 @@ package entity;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Notifica {
@@ -10,7 +10,7 @@ public class Notifica {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDate dataEmissione;
+    private LocalDateTime dataEmissione;
 
     @ManyToOne
     @JoinColumn(name = "prodotto_id")
@@ -24,9 +24,9 @@ public class Notifica {
     //costruttore
     public Notifica(Prodotto prodotto) {
         this.prodotto = prodotto;
-        this.dataEmissione = LocalDate.now();
+        this.dataEmissione = LocalDateTime.now();
     }
 
-    public LocalDate getDataEmissione() { return dataEmissione; } // <-- Ritorna LocalDate
+    public LocalDateTime getDataEmissione() { return dataEmissione; }
     public Prodotto getProdotto() { return prodotto; }
 }
