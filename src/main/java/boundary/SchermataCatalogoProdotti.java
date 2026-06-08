@@ -44,17 +44,17 @@ public class SchermataCatalogoProdotti {
     public void inserisciDati() {
         try {
             //Estrazione sicura del testo digitato dall'utente nella griglia grafica
-            String codice = txtCodice.getText().trim();
+            String codice = txtCodice.getText().trim().toUpperCase();
             String nome = txtNome.getText().trim();
             String descrizione = txtDescrizione.getText().trim();
 
-            String nomeCategoria = txtCategoria.getText().trim();
+            String nomeCategoria = txtCategoria.getText().trim().toUpperCase();
             Categoria categoria = new Categoria(nomeCategoria);
 
             int soglia = Integer.parseInt(txtSoglia.getText().trim());
 
             int scaffale = Integer.parseInt(txtScaffale.getText().trim());
-            String area = txtArea.getText().trim();
+            String area = txtArea.getText().trim().toUpperCase();
             Posizione posizione = new Posizione(scaffale, area);
 
             //Validazione locale prima dell'invio al sistema
@@ -69,6 +69,9 @@ public class SchermataCatalogoProdotti {
         } catch (NumberFormatException ex) {
             //Gestione dell'errore di digitazione se l'utente inserisce lettere nei campi numerici
             messaggioConferma("ERRORE: I campi 'Soglia Minima' e 'Numero Scaffale' richiedono un numero intero.");
+        } catch (IllegalArgumentException ex) {
+            //Intercetta l'eccezione di sogliaMinima negativa Prodotto e mostra il messaggio
+            messaggioConferma(ex.getMessage());
         }
     }
 

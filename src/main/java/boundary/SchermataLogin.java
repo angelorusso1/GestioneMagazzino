@@ -26,9 +26,9 @@ public class SchermataLogin {
         btnAccedi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String nome = txtNome.getText().trim();
-                String cognome = txtCognome.getText().trim();
-                String email = txtEmail.getText().trim();
+                String nome = txtNome.getText().trim().toLowerCase();
+                String cognome = txtCognome.getText().trim().toLowerCase();
+                String email = txtEmail.getText().trim().toLowerCase();
 
                 //Validazione base
                 if (nome.isEmpty() || cognome.isEmpty() || email.isEmpty()) {
