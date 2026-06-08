@@ -3,27 +3,24 @@ package entity;
 import database.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class CatalogoProdotti {
 
 	private GestorePersistenza gestorePersistenza;
-	//Lista interna in-memory per tracciare i prodotti e consentire la simulazione dei metodi
-	private List<Prodotto> listaProdotti;
 
 	//Costruttore inserito per inizializzare la struttura di contenimento ed evitare NullPointerException
 	public CatalogoProdotti() {
-		this.listaProdotti = new ArrayList<>();
 		this.gestorePersistenza = new GestorePersistenza();
 	}
 
 
 	public boolean verificaUnivocitaCodice(String codice) {
-		for (Prodotto p : this.listaProdotti) {
-			if (p.getCodice() != null && p.getCodice().equals(codice)) {
-				return false; //Trovato un duplicato, il codice non è univoco
-			}
-		}
-		return true; //Nessun duplicato trovato, il codice può essere utilizzato
+		Prodotto prodottoTrovato = gestorePersistenza.cercaPrimoPerCampi(
+				Prodotto.class,
+				Map.of("codice", codice)
+		);
+		return prodottoTrovato == null;
 	}
 
 	/**
@@ -33,32 +30,42 @@ public class CatalogoProdotti {
 	 * * @param codice
 	 * @param nome
 	 * @param Descrizione
-	 * @param posizione
-	 * @param categoria
+	 * @param posizioneInput
+	 * @param categoriaInput
 	 * @param soglia
 	 * @param quantita
 	 */
-	public boolean aggiungiProdotto(String codice, String nome, String Descrizione, Posizione posizione, Categoria categoria, int soglia, int quantita) {
+	public boolean aggiungiProdotto(String codice, String nome, String Descrizione, Posizione posizioneInput, Categoria categoriaInput, int soglia, int quantita) {
+		//usiamo i metodi di GestorePErsistenza per cercare i campi nel database se esistono
+		Categoria categoriaTrovata = gestorePersistenza.cercaPrimoPerCampi(
+				Categoria.class,
+				Map.of("Nome", categoriaInput.getNome())
+		);
+		Categoria categoriaDefinitiva = (categoriaTrovata != null) ? categoriaTrovata : categoriaInput; //se trova la categoria nel db usa quella
+
+		Posizione posizioneTrovata = gestorePersistenza.cercaPrimoPerCampi(
+				Posizione.class,
+				Map.of("Scaffale", posizioneInput.getScaffale(), "Area", posizioneInput.getArea())
+		);
+		Posizione posizioneDefinitiva = (posizioneTrovata != null) ? posizioneTrovata : posizioneInput; //se trova la posizione nel db usa quella
+
+
 		//Creazione dell'istanza dell'entità Prodotto sfruttando il suo costruttore
-		Prodotto nuovoProdotto = new Prodotto(codice, nome, Descrizione, soglia, categoria, posizione);
+		Prodotto nuovoProdotto = new Prodotto(codice, nome, Descrizione, soglia, categoriaDefinitiva, posizioneDefinitiva);
 
 		//Se nel flusso la quantità iniziale venisse forzata a un valore diverso da 0
 		if (quantita > 0) {
 			nuovoProdotto.setQuantitaDisponibile(quantita);
 		}
 
-		//Salva il nuovo prodotto sul DB
-		boolean salvatoSuDb = gestorePersistenza.salva(nuovoProdotto);
+		/*
+		Usiamo aggiorna (che usa em.merge) invece di salva (em.persist).
+		Il merge è in grado di gestire sia il Prodotto nuovo da inserire,
+		sia la Categoria/Posizione già esistenti e "scollegate" dal DB.
+		*/
+		Prodotto prodottoSalvato = gestorePersistenza.aggiorna(nuovoProdotto);
 
-		if (salvatoSuDb) {
-			// Aggiunta alla lista in memoria
-			this.listaProdotti.add(nuovoProdotto);
-			System.out.println("[DB] Nuovo oggetto Prodotto salvato con successo.");
-			return true; // Diciamo al Controller che è andato tutto bene
-		} else {
-			System.out.println("[ERRORE] Fallimento nel salvataggio.");
-			return false; // Diciamo al Controller che c'è stato un problema
-		}
+		return prodottoSalvato != null; // Se non è null è andato tutto a buon fine
 	}
 
 	/**
@@ -77,7 +84,7 @@ public class CatalogoProdotti {
 
 	public List<Prodotto> getCatalogoCompleto() {
 		//Ritorniamo la lista interna per consentire eventuali operazioni di lettura globali
-		return this.listaProdotti;
+		return gestorePersistenza.cercaPerCampi(Prodotto.class, Map.of());
 	}
 
 	public List<Prodotto> getCatalogoSottoScorta() {

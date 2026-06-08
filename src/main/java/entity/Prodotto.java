@@ -10,9 +10,15 @@ public class Prodotto {
 	private Long id;
 
 	private String nome;
+
+	@Column(nullable = false, unique = true)
 	private String codice;
 	private String descrizione;
+
+	@Column(nullable = false)
 	private int sogliaMinima;
+
+	@Column(nullable = false)
 	private int quantitaDisponibile = 0;
 
 	//Relazione: Molti Prodotti appartengono a una Categoria
@@ -35,6 +41,11 @@ public class Prodotto {
 	 * Costruttore con parametri per la logica di business (Creazione Prodotti)
 	 */
 	public Prodotto(String codice, String nome, String descrizione, int sogliaMinima, Categoria categoria, Posizione posizione) {
+		//controllo sull'inizializzazione della soglia minima (non può essere negativa)
+		if (sogliaMinima < 0) {
+			throw new IllegalArgumentException("ERRORE: La soglia minima non può essere un valore negativo!");
+		}
+
 		this.codice = codice;
 		this.nome = nome;
 		this.descrizione = descrizione;
@@ -73,6 +84,10 @@ public class Prodotto {
 	}
 
 	public int getSogliaMinima() {
+		//la soglia minima come la quantità non può essere negativa
+		if (sogliaMinima < 0) {
+			throw new IllegalArgumentException("ERRORE: La soglia minima non può essere un valore negativo!");
+		}
 		return this.sogliaMinima;
 	}
 
@@ -85,6 +100,11 @@ public class Prodotto {
 	}
 
 	public void setQuantitaDisponibile(int quantitaDisponibile) {
+		//la quantità disponibile di un prodotto non può essere negativa
+		if (quantitaDisponibile < 0) {
+			throw new IllegalArgumentException("ERRORE CRITICO: La quantità disponibile non può essere negativa!");
+		}
+
 		this.quantitaDisponibile = quantitaDisponibile;
 	}
 

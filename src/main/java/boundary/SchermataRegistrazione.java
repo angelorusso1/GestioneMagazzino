@@ -31,9 +31,9 @@ public class SchermataRegistrazione {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Raccogliamo i dati inseriti dall'utente
-                String nome = txtNome.getText();
-                String cognome = txtCognome.getText();
-                String email = txtEmail.getText();
+                String nome = txtNome.getText().toLowerCase();
+                String cognome = txtCognome.getText().toLowerCase();
+                String email = txtEmail.getText().toLowerCase();
 
                 Ruolo ruoloSelected = (Ruolo) cmbRuolo.getSelectedItem();
 
