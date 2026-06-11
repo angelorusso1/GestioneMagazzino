@@ -110,6 +110,7 @@ public class MagazzinoController {
 
 
 	public void richiediScarico(String codiceProdotto, int quantitaDaScaricare, SchermataScarico boundary) {
+
 		List<Prodotto> risultati = catalogoProdotti.cercaCodice(codiceProdotto);
 
 		if (risultati == null || risultati.isEmpty()) {
@@ -120,7 +121,7 @@ public class MagazzinoController {
 		Prodotto prodotto = risultati.get(0);
 
 		if (!prodotto.verificaOperazione(quantitaDaScaricare)) {
-			boundary.messaggioErrore("Quantità insufficiente! Quantità disponibile: " + prodotto.getQuantitaDisponibile());
+			boundary.messaggioErrore("Quantità insufficiente! Disponibile: " + prodotto.getQuantitaDisponibile());
 			return;
 		}
 
