@@ -110,11 +110,22 @@ public class CatalogoProdotti {
 	 * * @param prodotto
 	 * @param quantita
 	 */
-	public void sottraiProdotto(Prodotto prodotto, int quantita) {
-		// TODO - implement CatalogoProdotti.sottraiProdotto
-		throw new UnsupportedOperationException();
-	}
+	/**
+	 * Esegue la sottrazione della quantità e salva sul database.
+	 */
+	public boolean sottraiProdotto(Prodotto prodotto, int quantita) {
+		// 1. Logica di business: sottraiamo la quantità
+		int nuovaQuantita = prodotto.getQuantitaDisponibile() - quantita;
+		prodotto.setQuantitaDisponibile(nuovaQuantita);
 
+		// 2. Usiamo il gestore persistenza per salvare l'aggiornamento
+		// Questa è la parte fondamentale: chiamiamo il metodo 'aggiorna'
+		// che il tuo progetto ha già per salvare le modifiche nel DB
+		Prodotto salvato = gestorePersistenza.aggiorna(prodotto);
+
+		// 3. Ritorna true se il salvataggio è andato a buon fine
+		return salvato != null;
+	}
 	/**
 	 * * @param codice
 	 */
