@@ -6,17 +6,19 @@ import java.util.List;
 
 public class GestioneNotifiche {
 
-    private GestorePersistenza gestorePersistenza;
+    private GestorePersistenza gp = new GestorePersistenza();
 
 
     //metodo chiamato dal controller per inviare una notifica
-    public void inviaNotifica(Prodotto prodotto, int quantitaDisp) {
-        // TODO - implement GestioneNotifiche.inviaNotifica
-        throw new UnsupportedOperationException();
+    public void creaNotifica(Prodotto prodotto) {
+        // Usiamo il costruttore specifico di Notifica che imposta automaticamente la data odierna
+        Notifica nuovaNotifica = new Notifica(prodotto);
+
+        // Salviamo l'entità notifica nel database
+        gp.aggiorna(nuovaNotifica);
     }
 
     public List<Notifica> getNotificheInOrdineCrescente() {
-        GestorePersistenza gp = new GestorePersistenza();
         return gp.recuperaNotificheOrdinatePerData();
     }
 }

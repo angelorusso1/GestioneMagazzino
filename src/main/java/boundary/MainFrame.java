@@ -78,6 +78,19 @@ public class MainFrame {
             });
         }
 
+        if (btnEffettuaScarico != null) {
+            btnEffettuaScarico.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Usiamo lo stesso approccio di istanziazione del controller visto sopra
+                    MagazzinoController controllerScarico = new MagazzinoController((SchermataRegistrazione) null);
+
+                    // Invochiamo il metodo appena creato per mostrare la finestra
+                    controllerScarico.apriSchermataScarico();
+                }
+            });
+        }
+
     }
 
     /**

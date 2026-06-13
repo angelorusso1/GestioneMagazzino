@@ -129,6 +129,13 @@ public class MagazzinoController {
 
 		if (successo) {
 			boundary.messaggioConferma("Scarico effettuato con successo. Nuova disponibilità: " + prodotto.getQuantitaDisponibile());
+
+			if (prodotto.isSottoScorta()) {
+				GestioneNotifiche gestioneNotifiche = new GestioneNotifiche();
+				// Generiamo e salviamo la notifica nel DB
+				gestioneNotifiche.creaNotifica(prodotto);
+			}
+
 		} else {
 			boundary.messaggioErrore("Errore durante il salvataggio sul database.");
 		}
@@ -186,5 +193,22 @@ public class MagazzinoController {
 		frame.setSize(600, 400);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+	}
+
+	public void apriSchermataScarico() {
+		// Istanziamo la SchermataScarico passando questo controller
+		SchermataScarico schermataScarico = new SchermataScarico(this);
+
+		// Creazione e configurazione della finestra nativa
+		JFrame frameScarico = new JFrame("Effettua Scarico Merci");
+
+		// Recuperiamo il pannello principale della schermata (JPanel)
+		frameScarico.setContentPane(schermataScarico.getMainPanel());
+		frameScarico.pack();
+		frameScarico.setSize(450, 300); // Dimensioni adatte a un form di scarico
+
+		// Centra la finestra sullo schermo
+		frameScarico.setLocationRelativeTo(null);
+		frameScarico.setVisible(true);
 	}
 }

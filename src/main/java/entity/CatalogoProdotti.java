@@ -116,8 +116,16 @@ public class CatalogoProdotti {
 	 * * @param codice
 	 */
 	public List<Prodotto> cercaCodice(String codice) {
-		// TODO - implement CatalogoProdotti.cercaCodice
-		throw new UnsupportedOperationException();
+		Prodotto trovato = gestorePersistenza.cercaPrimoPerCampi(
+				Prodotto.class,
+				Map.of("codice", codice)
+		);
+
+		List<Prodotto> risultati = new ArrayList<>();
+		if (trovato != null) {
+			risultati.add(trovato);
+		}
+		return risultati;
 	}
 
 	/**

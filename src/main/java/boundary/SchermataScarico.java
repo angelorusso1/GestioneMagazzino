@@ -4,25 +4,27 @@ import controller.MagazzinoController;
 import javax.swing.*;
 
 public class SchermataScarico extends JPanel {
-    private JTextField IDTextField;
-    private JPanel panel1;
-    private JTextField quantitàTextField;
-    private JButton eseguiScaricoButton;
+    private JPanel mainPanel;
+    private JButton btnConferma;
+    private JLabel lblId;
+    private JLabel lblQuantita;
+    private JTextField txtQuantita;
+    private JTextField txtID;
 
     private MagazzinoController controller;
 
     public SchermataScarico(MagazzinoController controller) {
         this.controller = controller;
 
-        eseguiScaricoButton.addActionListener(e -> {
-            String codice = IDTextField.getText();
-            String quantitaString = quantitàTextField.getText();
+        btnConferma.addActionListener(e -> {
+            String codice = txtID.getText();
+            String quantitaString = txtQuantita.getText();
 
             try {
                 int quantita = Integer.parseInt(quantitaString);
                 controller.richiediScarico(codice, quantita, this);
-                IDTextField.setText("");
-                quantitàTextField.setText("");
+                txtID.setText("");
+                txtQuantita.setText("");
 
             } catch (NumberFormatException ex) {
                 messaggioErrore("Inserisci un numero valido nel campo Quantità!");
@@ -40,6 +42,6 @@ public class SchermataScarico extends JPanel {
 
 
     public JPanel getMainPanel() {
-        return panel1;
+        return mainPanel;
     }
 }
