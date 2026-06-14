@@ -1,7 +1,9 @@
 package controller;
 
 import boundary.MainFrame;
+import boundary.OutputSchermataAnalisi;
 import boundary.SchermataLogin;
+import database.GestorePersistenza;
 import entity.*;
 
 import java.time.LocalDate;
@@ -138,12 +140,21 @@ public class MagazzinoController {
 
 	/**
 	 * 
-	 * @param dataInzio
+	 * @param dataInizio
 	 * @param dataFine
 	 */
-	public void richiediAnalisiMagazzino(LocalDate dataInzio, LocalDate dataFine) {
-		// TODO - implement MagazzinoController.richiediAnalisiMagazzino
-		throw new UnsupportedOperationException();
+	public void richiediAnalisiMagazzino(LocalDate dataInizio, LocalDate dataFine) {
+		GestorePersistenza gestore = new GestorePersistenza(); // o la tua istanza/singleton
+
+		// 1. Otteniamo l'oggetto report completo dal layer di persistenza
+		// passando l'intervallo temporale richiesto
+		DatiReport reportMagazzino = gestore.generaReportAnalisi(dataInizio, dataFine);
+
+		// 2. Istanziamo la schermata di output passando un unico oggetto
+		OutputSchermataAnalisi schermataRisultati = new OutputSchermataAnalisi(reportMagazzino);
+
+		// 3. Rendiamo visibile la finestra
+		schermataRisultati.setVisible(true);
 	}
 
 	/**

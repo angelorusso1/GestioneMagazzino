@@ -1,10 +1,14 @@
 package database;
 
+import entity.DatiReport;
+import entity.Movimento;
+import entity.Prodotto;
 import entity.Utente;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -305,4 +309,49 @@ public class GestorePersistenza {
 		}
 	}
 
+	public DatiReport generaReportAnalisi(LocalDate dataInizio, LocalDate dataFine) {
+
+		// 1. Istanziamo l'oggetto DatiReport vuoto che farà da contenitore
+		DatiReport report = new DatiReport();
+
+		// Recuperiamo l'EntityManager per comunicare con il database (adattalo alla tua classe JpaUtil)
+		EntityManager em = JpaUtil.getInstance().getEntityManager();
+
+		try {
+
+			// 3. Classifica dei Prodotti più movimentati nel periodo
+			// Raggruppiamo per prodotto e ordiniamo in base alla somma delle quantità (decrescente)
+			List<Prodotto> piuMovimentati = em.createQuery(
+							"SELECT m.prodotto FROM Movimento m WHERE m.Data BETWEEN :inizio AND :fine " +
+									"GROUP BY m.prodotto ORDER BY SUM(m.QuantitaProdotto) DESC", Prodotto.class)
+					.setParameter("inizio", dataInizio)
+					.setParameter("fine", dataFine)
+					.getResultList();
+			report.setListaProdottiPiuMovimentati(piuMovimentati);
+
+			// 2. Estrazione Storico Movimenti nel periodo selezionato
+			List<Movimento> movimentiPeriodo = em.createQuery(
+							"SELECT m FROM Movimento m WHERE m.Data BETWEEN :inizio AND :fine", Movimento.class)
+					.setParameter("inizio", dataInizio)
+					.setParameter("fine", dataFine)
+					.getResultList();
+			report.setListaMovimenti(movimentiPeriodo);
+
+			// 3. Estrazione Prodotti Sotto Scorta
+// Usa i nomi esatti delle variabili con le maiuscole come le hai definite tu in Prodotto.java
+			List<Prodotto> sottoScorta = em.createQuery(
+							"SELECT p FROM Prodotto p WHERE p.QuantitaDisponibile < p.SogliaMinima", Prodotto.class)
+					.getResultList();
+			report.setListaProdottiSottoScorta(sottoScorta); // O il nome del setter che hai in DatiReport
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			// Gestione di un eventuale errore di connessione al database
+		} finally {
+			em.close(); // È fondamentale chiudere sempre l'EntityManager per evitare memory leak
+		}
+
+		// 2. Restituiamo il pacchetto completo al MagazzinoController
+		return report;
+	}
 }

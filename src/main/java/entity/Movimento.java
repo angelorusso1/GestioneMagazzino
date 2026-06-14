@@ -8,10 +8,12 @@ import java.time.LocalDate;
 public class Movimento {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private LocalDate Data;
 	private int QuantitaProdotto;
+	@ManyToOne
+	private Prodotto prodotto;
 
 	public LocalDate getData() {
 		return this.Data;
@@ -27,6 +29,14 @@ public class Movimento {
 
 	public void setQuantitaProdotto(int QuantitaProdotto) {
 		this.QuantitaProdotto = QuantitaProdotto;
+	}
+
+	public Prodotto getProdotto() {
+		return prodotto;
+	}
+
+	public void setProdotto(Prodotto prodotto) {
+		this.prodotto = prodotto;
 	}
 
 }
