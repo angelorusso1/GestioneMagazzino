@@ -5,9 +5,11 @@ import entity.*;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class SchermataCatalogoProdotti0 {
 
 	private Scanner scanner;
+
 	public void selezionaProdotto() {
 		// TODO - implement SchermataCatalogoProdotti.selezionaProdotto
 		throw new UnsupportedOperationException();
@@ -114,5 +116,4 @@ public class SchermataCatalogoProdotti0 {
 		// TODO - implement SchermataCatalogoProdotti.schermataNomiProdotti
 		throw new UnsupportedOperationException();
 	}
-
 }

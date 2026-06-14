@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 import javax.swing.*;
 
+
 public class MagazzinoController {
 
 	private SchermataRegistrazione schermataRegistrazione;
@@ -107,8 +108,37 @@ public class MagazzinoController {
 		throw new UnsupportedOperationException();
 	}
 
-	public void richiediScarico(Prodotto prodotto, int quantita) {
-		throw new UnsupportedOperationException();
+
+	public void richiediScarico(String codiceProdotto, int quantitaDaScaricare, SchermataScarico boundary) {
+
+		List<Prodotto> risultati = catalogoProdotti.cercaCodice(codiceProdotto);
+
+		if (risultati == null || risultati.isEmpty()) {
+			boundary.messaggioErrore("Prodotto con codice " + codiceProdotto + " non trovato.");
+			return;
+		}
+
+		Prodotto prodotto = risultati.get(0);
+
+		if (!prodotto.verificaOperazione(quantitaDaScaricare)) {
+			boundary.messaggioErrore("Quantità insufficiente! Disponibile: " + prodotto.getQuantitaDisponibile());
+			return;
+		}
+
+		boolean successo = catalogoProdotti.sottraiProdotto(prodotto, quantitaDaScaricare);
+
+		if (successo) {
+			boundary.messaggioConferma("Scarico effettuato con successo. Nuova disponibilità: " + prodotto.getQuantitaDisponibile());
+
+			if (prodotto.isSottoScorta()) {
+				GestioneNotifiche gestioneNotifiche = new GestioneNotifiche();
+				// Generiamo e salviamo la notifica nel DB
+				gestioneNotifiche.creaNotifica(prodotto);
+			}
+
+		} else {
+			boundary.messaggioErrore("Errore durante il salvataggio sul database.");
+		}
 	}
 
 	public void Clayton_richiediRicercaCodice(String codice) {
@@ -163,5 +193,22 @@ public class MagazzinoController {
 		frame.setSize(600, 400);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+	}
+
+	public void apriSchermataScarico() {
+		// Istanziamo la SchermataScarico passando questo controller
+		SchermataScarico schermataScarico = new SchermataScarico(this);
+
+		// Creazione e configurazione della finestra nativa
+		JFrame frameScarico = new JFrame("Effettua Scarico Merci");
+
+		// Recuperiamo il pannello principale della schermata (JPanel)
+		frameScarico.setContentPane(schermataScarico.getMainPanel());
+		frameScarico.pack();
+		frameScarico.setSize(450, 300); // Dimensioni adatte a un form di scarico
+
+		// Centra la finestra sullo schermo
+		frameScarico.setLocationRelativeTo(null);
+		frameScarico.setVisible(true);
 	}
 }

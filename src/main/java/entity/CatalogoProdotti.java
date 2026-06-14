@@ -9,7 +9,6 @@ public class CatalogoProdotti {
 
 	private GestorePersistenza gestorePersistenza;
 
-	//Costruttore inserito per inizializzare la struttura di contenimento ed evitare NullPointerException
 	public CatalogoProdotti() {
 		this.gestorePersistenza = new GestorePersistenza();
 	}
@@ -36,7 +35,7 @@ public class CatalogoProdotti {
 	 * @param quantita
 	 */
 	public boolean aggiungiProdotto(String codice, String nome, String Descrizione, Posizione posizioneInput, Categoria categoriaInput, int soglia, int quantita) {
-		//usiamo i metodi di GestorePErsistenza per cercare i campi nel database se esistono
+
 		Categoria categoriaTrovata = gestorePersistenza.cercaPrimoPerCampi(
 				Categoria.class,
 				Map.of("Nome", categoriaInput.getNome())
@@ -49,20 +48,12 @@ public class CatalogoProdotti {
 		);
 		Posizione posizioneDefinitiva = (posizioneTrovata != null) ? posizioneTrovata : posizioneInput; //se trova la posizione nel db usa quella
 
-
-		//Creazione dell'istanza dell'entità Prodotto sfruttando il suo costruttore
 		Prodotto nuovoProdotto = new Prodotto(codice, nome, Descrizione, soglia, categoriaDefinitiva, posizioneDefinitiva);
 
-		//Se nel flusso la quantità iniziale venisse forzata a un valore diverso da 0
 		if (quantita > 0) {
 			nuovoProdotto.setQuantitaDisponibile(quantita);
 		}
 
-		/*
-		Usiamo aggiorna (che usa em.merge) invece di salva (em.persist).
-		Il merge è in grado di gestire sia il Prodotto nuovo da inserire,
-		sia la Categoria/Posizione già esistenti e "scollegate" dal DB.
-		*/
 		Prodotto prodottoSalvato = gestorePersistenza.aggiorna(nuovoProdotto);
 
 		return prodottoSalvato != null; // Se non è null è andato tutto a buon fine
@@ -110,17 +101,31 @@ public class CatalogoProdotti {
 	 * * @param prodotto
 	 * @param quantita
 	 */
-	public void sottraiProdotto(Prodotto prodotto, int quantita) {
-		// TODO - implement CatalogoProdotti.sottraiProdotto
-		throw new UnsupportedOperationException();
-	}
+	/**
+	 * Esegue la sottrazione della quantità e salva sul database.
+	 */
+	public boolean sottraiProdotto(Prodotto prodotto, int quantita) {
+		int nuovaQuantita = prodotto.getQuantitaDisponibile() - quantita;
+		prodotto.setQuantitaDisponibile(nuovaQuantita);
 
+		Prodotto salvato = gestorePersistenza.aggiorna(prodotto);
+
+		return salvato != null;
+	}
 	/**
 	 * * @param codice
 	 */
 	public List<Prodotto> cercaCodice(String codice) {
-		// TODO - implement CatalogoProdotti.cercaCodice
-		throw new UnsupportedOperationException();
+		Prodotto trovato = gestorePersistenza.cercaPrimoPerCampi(
+				Prodotto.class,
+				Map.of("codice", codice)
+		);
+
+		List<Prodotto> risultati = new ArrayList<>();
+		if (trovato != null) {
+			risultati.add(trovato);
+		}
+		return risultati;
 	}
 
 	/**
