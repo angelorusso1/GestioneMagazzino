@@ -37,6 +37,12 @@ public class SchermataRegistrazione {
 
                 Ruolo ruoloSelected = (Ruolo) cmbRuolo.getSelectedItem();
 
+                //Validazione base
+                if (nome.isEmpty() || cognome.isEmpty() || email.isEmpty()) {
+                    messaggioErrore("Tutti i campi sono obbligatori!");
+                    return;
+                }
+
                 //Chiamo il metodo del controller passandogli le informazioni
                 controller.richiediRegistrazione(nome, cognome, email, ruoloSelected);
             }
