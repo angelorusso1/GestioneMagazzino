@@ -98,7 +98,7 @@ public class MainFrame {
                     MagazzinoController controllerScarico = new MagazzinoController((SchermataRegistrazione) null);
 
                     // Invochiamo il metodo appena creato per mostrare la finestra
-                    controllerScarico.apriSchermataScarico();
+                    controllerScarico.apriSchermataOperatore();
                 }
             });
         }

@@ -38,6 +38,15 @@ public class SchermataAnalisiMagazzino {
                     LocalDate dataInizio = LocalDate.parse(stringaInizio, formatter);
                     LocalDate dataFine = LocalDate.parse(stringaFine, formatter);
 
+                    // 🎯 AGGIUNTA: Controllo di coerenza temporale
+                    if (dataInizio.isAfter(dataFine)) {
+                        JOptionPane.showMessageDialog(null,
+                                "La data di inizio non può essere successiva alla data di fine!",
+                                "Errore Temporale",
+                                JOptionPane.WARNING_MESSAGE);
+                        return; // Blocca l'esecuzione ed evita di chiamare il controller
+                    }
+
                     // Richiamiamo il metodo ESATTO che hai nel tuo Controller
                     magazzinoController.richiediAnalisiMagazzino(dataInizio, dataFine);
 

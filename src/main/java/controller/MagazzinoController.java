@@ -5,6 +5,7 @@ import database.GestorePersistenza;
 import entity.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import javax.swing.*;
 
 
@@ -206,12 +207,29 @@ public class MagazzinoController {
 		frame.setVisible(true);
 	}
 
-	public void apriSchermataScarico() {
+	// 1. Questo metodo viene chiamato dal MainFrame quando l'operatore clicca "Effettua Scarico"
+	public void apriSchermataOperatore() {
+		// Recuperiamo la lista di tutti i prodotti dal database tramite il gestore persistenza
+		GestorePersistenza gp = new GestorePersistenza();
+		// cercaPerCampi con mappa vuota restituisce TUTTI i record della tabella Prodotto
+		List<Prodotto> elencoProdotti = gp.cercaPerCampi(Prodotto.class, Map.of());
+
+		// Istanziamo la schermata elenco passando il controller e la lista di prodotti da mostrare nella JTable
+		SchermataOperatore schermataElenco = new SchermataOperatore(this, elencoProdotti);
+
+		JFrame frame = new JFrame("Catalogo Prodotti Magazzino");
+		frame.setContentPane(schermataElenco.getMainPanel());
+		frame.pack();
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+	}
+
+	public void apriSchermataScaricoSelezionato(Prodotto prodottoSelezionato) {
 		// Istanziamo la SchermataScarico passando questo controller
-		SchermataScarico schermataScarico = new SchermataScarico(this);
+		SchermataScarico schermataScarico = new SchermataScarico(this, prodottoSelezionato);
 
 		// Creazione e configurazione della finestra nativa
-		JFrame frameScarico = new JFrame("Effettua Scarico Merci");
+		JFrame frameScarico = new JFrame("Effettua Scarico Prodotto - " + prodottoSelezionato.getNome());
 
 		// Recuperiamo il pannello principale della schermata (JPanel)
 		frameScarico.setContentPane(schermataScarico.getMainPanel());
