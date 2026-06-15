@@ -1,6 +1,7 @@
 package controller;
 
 import boundary.*;
+import database.GestorePersistenza;
 import entity.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -104,10 +105,6 @@ public class MagazzinoController {
 		}
 	}
 
-	public void richiediAnalisiMagazzino(LocalDate dataInzio, LocalDate dataFine) {
-		throw new UnsupportedOperationException();
-	}
-
 
 	public void richiediScarico(String codiceProdotto, int quantitaDaScaricare, SchermataScarico boundary) {
 
@@ -139,6 +136,20 @@ public class MagazzinoController {
 		} else {
 			boundary.messaggioErrore("Errore durante il salvataggio sul database.");
 		}
+	}
+
+	public void richiediAnalisiMagazzino(LocalDate dataInizio, LocalDate dataFine) {
+		GestorePersistenza gestore = new GestorePersistenza(); // o la tua istanza/singleton
+
+		// 1. Otteniamo l'oggetto report completo dal layer di persistenza
+		// passando l'intervallo temporale richiesto
+		DatiReport reportMagazzino = gestore.generaReportAnalisi(dataInizio, dataFine);
+
+		// 2. Istanziamo la schermata di output passando un unico oggetto
+		OutputSchermataAnalisi schermataRisultati = new OutputSchermataAnalisi(reportMagazzino);
+
+		// 3. Rendiamo visibile la finestra
+		schermataRisultati.setVisible(true);
 	}
 
 	public void Clayton_richiediRicercaCodice(String codice) {
@@ -211,4 +222,19 @@ public class MagazzinoController {
 		frameScarico.setLocationRelativeTo(null);
 		frameScarico.setVisible(true);
 	}
+
+	public void apriSchermataAnalisi() {
+		// Istanziamo la schermata di inserimento date passando questo controller
+		SchermataAnalisiMagazzino schermataInput = new SchermataAnalisiMagazzino(this);
+
+		// Creiamo la finestra nativa
+		JFrame frameInput = new JFrame("Seleziona Periodo Analisi");
+		frameInput.setContentPane(schermataInput.getMainPanel());
+		frameInput.pack();
+
+		// Centriamo la finestra nello schermo e la rendiamo visibile
+		frameInput.setLocationRelativeTo(null);
+		frameInput.setVisible(true);
+	}
+
 }

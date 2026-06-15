@@ -91,6 +91,19 @@ public class MainFrame {
             });
         }
 
+        if (btnVisualizzaAnalisiMagazzino != null) {
+            btnVisualizzaAnalisiMagazzino.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Istanziamo il controller seguendo il vostro standard
+                    MagazzinoController controllerAnalisi = new MagazzinoController((SchermataRegistrazione) null);
+
+                    // Chiamiamo il metodo appena creato per aprire il form delle date
+                    controllerAnalisi.apriSchermataAnalisi();
+                }
+            });
+        }
+
     }
 
     /**
