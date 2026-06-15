@@ -101,18 +101,15 @@ public class MagazzinoController {
 		boolean successo = catalogoProdotti.sottraiProdotto(prodotto, quantitaDaScaricare);
 
 		if (successo) {
-			// Registrazione del Movimento Scarico
-			Movimento nuovoMovimento = new Movimento();
-			nuovoMovimento.setData(LocalDate.now()); // Imposta la data odierna dello scarico
-			nuovoMovimento.setProdotto(prodotto);    // Associa il Prodotto appena scaricato
-			nuovoMovimento.setQuantitaProdotto(quantitaDaScaricare); // Salva quantitativo rimosso
+			// Registrazione movimento tramite StoricoMovimenti
+			StoricoMovimenti storico = new StoricoMovimenti();
+			boolean movimentoRegistrato = storico.registraMovimentoScarico(prodotto, quantitaDaScaricare);
 
-			// Salvo il nuovo movimento sul db
-			GestorePersistenza gp = new GestorePersistenza();
-			gp.salva(nuovoMovimento);
-
-			boundary.messaggioConferma("Scarico effettuato con successo. Nuova disponibilità: " + prodotto.getQuantitaDisponibile());
-
+			if (movimentoRegistrato) {
+				boundary.messaggioConferma("Scarico effettuato con successo. Nuova disponibilità: " + prodotto.getQuantitaDisponibile());
+			} else {
+				boundary.messaggioErrore("Errore durante la registrazione dello storico movimenti.");
+			}
 			if (prodotto.isSottoScorta()) {
 				GestioneNotifiche gestioneNotifiche = new GestioneNotifiche();
 				// Generiamo e salviamo la notifica nel DB
@@ -125,16 +122,15 @@ public class MagazzinoController {
 	}
 
 	public void richiediAnalisiMagazzino(LocalDate dataInizio, LocalDate dataFine) {
-		GestorePersistenza gestore = new GestorePersistenza(); // o la tua istanza/singleton
 
-		// Otteniamo l'oggetto report completo dal layer di persistenza
-		// passando l'intervallo temporale richiesto
-		DatiReport reportMagazzino = gestore.generaReportAnalisi(dataInizio, dataFine);
+		//richiede analisi magazzino allo storico movimenti
+		StoricoMovimenti storico = new StoricoMovimenti();
+		DatiReport reportMagazzino = storico.ottieniReportAnalisi(dataInizio, dataFine);
 
-		// Istanziamo la schermata di output passando un unico oggetto
+		// Istanziamo la schermata di output passando un unico oggetto (Invariato)
 		OutputSchermataAnalisi schermataRisultati = new OutputSchermataAnalisi(reportMagazzino);
 
-		// Rendiamo visibile la finestra
+		// Rendiamo visibile la finestra (Invariato)
 		schermataRisultati.setVisible(true);
 	}
 
@@ -174,10 +170,8 @@ public class MagazzinoController {
 
 	// Questo metodo viene chiamato dal MainFrame quando l'operatore clicca "Effettua Scarico"
 	public void apriSchermataOperatore() {
-		// Recuperiamo la lista di tutti i prodotti dal database tramite il gestore persistenza
-		GestorePersistenza gp = new GestorePersistenza();
 		// cercaPerCampi con mappa vuota restituisce TUTTI i record della tabella Prodotto
-		List<Prodotto> elencoProdotti = gp.cercaPerCampi(Prodotto.class, Map.of());
+		List<Prodotto> elencoProdotti = catalogoProdotti.ottieniCatalogoCompleto();
 
 		// Istanziamo la schermata elenco passando il controller e la lista di prodotti da mostrare nella JTable
 		SchermataOperatore schermataElenco = new SchermataOperatore(this, elencoProdotti);

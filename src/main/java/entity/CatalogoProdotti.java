@@ -91,4 +91,9 @@ public class CatalogoProdotti {
 		}
 		return risultati;
 	}
+
+	public List<Prodotto> ottieniCatalogoCompleto() {
+		GestorePersistenza gp = new GestorePersistenza();
+		return gp.cercaPerCampi(Prodotto.class, Map.of());
+	}
 }

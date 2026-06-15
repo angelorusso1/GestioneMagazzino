@@ -7,16 +7,21 @@ import java.util.List;
 
 public class StoricoMovimenti {
 
-	private GestorePersistenza gestorePersistenza;
+	private GestorePersistenza gestorePersistenza =  new GestorePersistenza();
 
-	/**
-	 * 
-	 * @param dataInizio
-	 * @param dataFine
-	 */
-	public List<Prodotto> getProdottiPiuMovimentati(LocalDate dataInizio, LocalDate dataFine) {
-		DatiReport report = gestorePersistenza.generaReportAnalisi(dataInizio, dataFine);
-		return report.getListaProdottiPiuMovimentati();
+	public boolean registraMovimentoScarico(Prodotto prodotto, int quantita) {
+		Movimento nuovoMovimento = new Movimento();
+		nuovoMovimento.setData(LocalDate.now());
+		nuovoMovimento.setProdotto(prodotto);
+		nuovoMovimento.setQuantitaProdotto(quantita);
+
+		// Delega il salvataggio fisico al gestore della persistenza
+		return gestorePersistenza.salva(nuovoMovimento);
+	}
+
+	public DatiReport ottieniReportAnalisi(LocalDate dataInizio, LocalDate dataFine) {
+		// Interroga il gestore persistenza e restituisce il pacchetto dati completo
+		return gestorePersistenza.generaReportAnalisi(dataInizio, dataFine);
 	}
 
 }
