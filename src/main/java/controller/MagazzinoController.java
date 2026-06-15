@@ -59,14 +59,14 @@ public class MagazzinoController {
 		boolean isUnivoco = catalogoProdotti.verificaUnivocitaCodice(codice);
 
 		if (!isUnivoco) {
-			boundary.messaggioConferma("ATTENZIONE: Il codice " + codice + " esiste già. Creazione annullata.");
+			boundary.messaggioErrore("ATTENZIONE: Il codice " + codice + " esiste già. Creazione annullata.");
 		} else {
 			boolean successo = catalogoProdotti.aggiungiProdotto(codice, nome, descrizione, posizione, categoria, soglia, 0);
 
 			if (successo) {
 				boundary.messaggioConferma("Prodotto '" + nome + "' inserito correttamente nel catalogo del magazzino.");
 			} else {
-				boundary.messaggioConferma("ERRORE: Impossibile salvare il prodotto nel database. Riprova.");
+				boundary.messaggioErrore("ERRORE: Impossibile salvare il prodotto nel database. Riprova.");
 			}
 		}
 	}

@@ -59,7 +59,7 @@ public class SchermataCatalogoProdotti {
 
             //Validazione locale prima dell'invio al sistema
             if (codice.isEmpty() || nome.isEmpty()) {
-                messaggioConferma("ATTENZIONE: I campi Codice e Nome sono obbligatori per procedere.");
+                messaggioErrore("ATTENZIONE: I campi Codice e Nome sono obbligatori per procedere.");
                 return;
             }
 
@@ -68,10 +68,10 @@ public class SchermataCatalogoProdotti {
 
         } catch (NumberFormatException ex) {
             //Gestione dell'errore di digitazione se l'utente inserisce lettere nei campi numerici
-            messaggioConferma("ERRORE: I campi 'Soglia Minima' e 'Numero Scaffale' richiedono un numero intero.");
+            messaggioErrore("ERRORE: I campi 'Soglia Minima' e 'Numero Scaffale' richiedono un numero intero.");
         } catch (IllegalArgumentException ex) {
             //Intercetta l'eccezione di sogliaMinima negativa Prodotto e mostra il messaggio
-            messaggioConferma(ex.getMessage());
+            messaggioErrore(ex.getMessage());
         }
     }
 
@@ -86,6 +86,10 @@ public class SchermataCatalogoProdotti {
         if (messaggio.contains("inserito correttamente")) {
             pulisciCampiGrafici();
         }
+    }
+
+    public void messaggioErrore(String messaggio) {
+        JOptionPane.showMessageDialog(mainPanel, messaggio, "Errore Sistema", JOptionPane.ERROR_MESSAGE);
     }
 
     /**
