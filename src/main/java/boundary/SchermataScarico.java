@@ -6,10 +6,10 @@ import javax.swing.*;
 public class SchermataScarico extends JPanel {
     private JPanel mainPanel;
     private JButton btnConferma;
-    private JLabel lblId;
+    private JLabel lblCodice;
     private JLabel lblQuantita;
     private JTextField txtQuantita;
-    private JTextField txtID;
+    private JTextField txtCodice;
 
     private MagazzinoController controller;
 
@@ -17,13 +17,13 @@ public class SchermataScarico extends JPanel {
         this.controller = controller;
 
         btnConferma.addActionListener(e -> {
-            String codice = txtID.getText();
+            String codice = txtCodice.getText();
             String quantitaString = txtQuantita.getText();
 
             try {
                 int quantita = Integer.parseInt(quantitaString);
                 controller.richiediScarico(codice, quantita, this);
-                txtID.setText("");
+                txtCodice.setText("");
                 txtQuantita.setText("");
 
             } catch (NumberFormatException ex) {
