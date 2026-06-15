@@ -60,8 +60,20 @@ public class MainFrame {
                 public void actionPerformed(ActionEvent e) {
                     // Chiude la dashboard corrente liberando le risorse grafiche
                     chiudiFinestra();
-                    // Invoca il punto di ingresso statico del menu principale per un nuovo accesso
-                    SchermataIniziale.main(new String[]{});
+
+                    SchermataIniziale finestraIniziale = new SchermataIniziale();
+
+                    // 3. Creiamo la finestra nativa (JFrame) per rimpiazzare il vecchio main statico
+                    JFrame frameIniziale = new JFrame("Sistema Gestione Magazzino - Benvenuto");
+                    frameIniziale.setContentPane(finestraIniziale.getMainPanel());
+
+                    // 4. Proprietà standard della finestra di ingresso
+                    frameIniziale.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    frameIniziale.setSize(500, 400); // Imposta la dimensione della finestra di benvenuto
+                    frameIniziale.setLocationRelativeTo(null); // Centra la finestra sullo schermo
+
+                    // 5. Rendiamo visibile la finestra di ingresso
+                    frameIniziale.setVisible(true);
                 }
             });
         }

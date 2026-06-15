@@ -41,15 +41,8 @@ public class SchermataIniziale {
         });
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Gestione Magazzino - Menu Principale");
-        SchermataIniziale avvio = new SchermataIniziale();
-
-        frame.setContentPane(avvio.mainPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Chiude l'app intera
-        frame.setSize(400, 300);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+    public JPanel getMainPanel() {
+        return mainPanel;
     }
 }
 
