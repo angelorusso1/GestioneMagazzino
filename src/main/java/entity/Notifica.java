@@ -16,12 +16,12 @@ public class Notifica {
     @JoinColumn(name = "prodotto_id")
     private Prodotto prodotto;
 
-    //costruttore vuoto
+    //costruttore vuoto utile per la persistenza
     public Notifica() {
 
     }
 
-    //costruttore
+    //costruttore reale
     public Notifica(Prodotto prodotto) {
         this.prodotto = prodotto;
         this.dataEmissione = LocalDateTime.now();

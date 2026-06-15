@@ -11,34 +11,12 @@ public class StoricoMovimenti {
 
 	/**
 	 * 
-	 * @param Data
-	 * @param quantita
-	 * @param tipo
-	 * @param prodotto
-	 */
-	public void aggiungiMoviemento(LocalDate Data, int quantita, TipoMovimento tipo, Prodotto prodotto) {
-		// TODO - implement StoricoMovimenti.aggiungiMoviemento
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
 	 * @param dataInizio
 	 * @param dataFine
 	 */
-	public List<Movimento> getMovimenti(LocalDate dataInizio, LocalDate dataFine) {
-		// TODO - implement StoricoMovimenti.getMovimenti
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param dataInizio
-	 * @param dataFine
-	 */
-	public List<Movimento> getProdottiPiuMovimentati(LocalDate dataInizio, LocalDate dataFine) {
-		// TODO - implement StoricoMovimenti.getProdottiPiuMovimentati
-		throw new UnsupportedOperationException();
+	public List<Prodotto> getProdottiPiuMovimentati(LocalDate dataInizio, LocalDate dataFine) {
+		DatiReport report = gestorePersistenza.generaReportAnalisi(dataInizio, dataFine);
+		return report.getListaProdottiPiuMovimentati();
 	}
 
 }

@@ -4,17 +4,15 @@ import java.util.List;
 
 public class DatiReport {
 
-	// I tre "cassetti" che conterranno i risultati dell'analisi
+	// Le tre liste che conterranno i risultati dell'analisi
 	private List<Prodotto> listaProdottiSottoScorta;
 	private List<Prodotto> listaProdottiPiuMovimentati;
-	// Usa il nome esatto della tua entità Movimento se è diverso
 	private List<Movimento> listaMovimenti;
 
-	// Costruttore vuoto
+	// Costruttore vuoto utile per la persistenza
 	public DatiReport() {
 	}
 
-	// --- GETTER E SETTER ---
 
 	public List<Prodotto> getListaProdottiSottoScorta() {
 		return listaProdottiSottoScorta;

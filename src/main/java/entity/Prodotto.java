@@ -38,7 +38,7 @@ public class Prodotto {
 	}
 
 	/**
-	 * Costruttore con parametri per la logica di business (Creazione Prodotti)
+	 * Costruttore con parametri
 	 */
 	public Prodotto(String codice, String nome, String descrizione, int sogliaMinima, Categoria categoria, Posizione posizione) {
 		//controllo sull'inizializzazione della soglia minima (non può essere negativa)
@@ -102,7 +102,7 @@ public class Prodotto {
 	public void setQuantitaDisponibile(int quantitaDisponibile) {
 		//la quantità disponibile di un prodotto non può essere negativa
 		if (quantitaDisponibile < 0) {
-			throw new IllegalArgumentException("ERRORE CRITICO: La quantità disponibile non può essere negativa!");
+			throw new IllegalArgumentException("ERRORE: La quantità disponibile non può essere negativa!");
 		}
 
 		this.quantitaDisponibile = quantitaDisponibile;

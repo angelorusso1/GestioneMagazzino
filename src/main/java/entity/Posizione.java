@@ -12,11 +12,11 @@ public class Posizione {
 	private int Scaffale;
 	private String Area;
 
-	//costruttore vuoto
+	//costruttore vuoto utile per la persistenza
 	public Posizione() {
 	}
 
-	//costruttore per i parametri
+	//costruttore reale
 	public Posizione(int scaffale, String area) {
 		this.Scaffale = scaffale;
 		this.Area = area;

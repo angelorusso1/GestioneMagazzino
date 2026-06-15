@@ -71,30 +71,6 @@ public class MagazzinoController {
 		}
 	}
 
-	public void richiediCatalogoCompleto() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void richiediCarico(Prodotto prodotto, int quantita) {
-		throw new UnsupportedOperationException();
-	}
-
-	public void richiediModificaProdotto(String nuovoNome, String nuovaDescrizione, Posizione nuovaPosizione, int nuovaSoglia, int nuovaQuantita, Categoria nuovaCategoria, Prodotto prodotto) {
-		throw new UnsupportedOperationException();
-	}
-
-	public void richiediElencoProdotti() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void richiediStoricoPersonale(String email) {
-		throw new UnsupportedOperationException();
-	}
-
-	public void richiediCatalogoSottoScorta() {
-		throw new UnsupportedOperationException();
-	}
-
 	public void richiediRegistrazione(String nome, String cognome, String email, Ruolo ruolo) {
 		GestioneUtenti gestioneUtenti = new GestioneUtenti();
 		boolean esito = gestioneUtenti.registraDati(nome, cognome, email, ruolo);
@@ -105,7 +81,6 @@ public class MagazzinoController {
 			schermataRegistrazione.messaggioErrore("Errore durante la registrazione dell'utente.");
 		}
 	}
-
 
 	public void richiediScarico(String codiceProdotto, int quantitaDaScaricare, SchermataScarico boundary) {
 
@@ -126,6 +101,16 @@ public class MagazzinoController {
 		boolean successo = catalogoProdotti.sottraiProdotto(prodotto, quantitaDaScaricare);
 
 		if (successo) {
+			// Registrazione del Movimento Scarico
+			Movimento nuovoMovimento = new Movimento();
+			nuovoMovimento.setData(LocalDate.now()); // Imposta la data odierna dello scarico
+			nuovoMovimento.setProdotto(prodotto);    // Associa il Prodotto appena scaricato
+			nuovoMovimento.setQuantitaProdotto(quantitaDaScaricare); // Salva quantitativo rimosso
+
+			// Salvo il nuovo movimento sul db
+			GestorePersistenza gp = new GestorePersistenza();
+			gp.salva(nuovoMovimento);
+
 			boundary.messaggioConferma("Scarico effettuato con successo. Nuova disponibilità: " + prodotto.getQuantitaDisponibile());
 
 			if (prodotto.isSottoScorta()) {
@@ -142,35 +127,15 @@ public class MagazzinoController {
 	public void richiediAnalisiMagazzino(LocalDate dataInizio, LocalDate dataFine) {
 		GestorePersistenza gestore = new GestorePersistenza(); // o la tua istanza/singleton
 
-		// 1. Otteniamo l'oggetto report completo dal layer di persistenza
+		// Otteniamo l'oggetto report completo dal layer di persistenza
 		// passando l'intervallo temporale richiesto
 		DatiReport reportMagazzino = gestore.generaReportAnalisi(dataInizio, dataFine);
 
-		// 2. Istanziamo la schermata di output passando un unico oggetto
+		// Istanziamo la schermata di output passando un unico oggetto
 		OutputSchermataAnalisi schermataRisultati = new OutputSchermataAnalisi(reportMagazzino);
 
-		// 3. Rendiamo visibile la finestra
+		// Rendiamo visibile la finestra
 		schermataRisultati.setVisible(true);
-	}
-
-	public void Clayton_richiediRicercaCodice(String codice) {
-		throw new UnsupportedOperationException();
-	}
-
-	public void richiediRicercaCodice(String codice) {
-		throw new UnsupportedOperationException();
-	}
-
-	public void richiediRicercaNome(String nome) {
-		throw new UnsupportedOperationException();
-	}
-
-	public void richiediRicercaCategoria(Categoria categoria) {
-		throw new UnsupportedOperationException();
-	}
-
-	public void richiediRicercaPoszione(Posizione posizione) {
-		throw new UnsupportedOperationException();
 	}
 
 	public void apriSchermataCreaProdotto() {
@@ -207,7 +172,7 @@ public class MagazzinoController {
 		frame.setVisible(true);
 	}
 
-	// 1. Questo metodo viene chiamato dal MainFrame quando l'operatore clicca "Effettua Scarico"
+	// Questo metodo viene chiamato dal MainFrame quando l'operatore clicca "Effettua Scarico"
 	public void apriSchermataOperatore() {
 		// Recuperiamo la lista di tutti i prodotti dal database tramite il gestore persistenza
 		GestorePersistenza gp = new GestorePersistenza();

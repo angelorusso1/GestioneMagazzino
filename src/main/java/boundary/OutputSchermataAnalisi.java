@@ -26,22 +26,20 @@ public class OutputSchermataAnalisi extends JFrame {
         setContentPane(mainPanel);
         setTitle("Risultati Analisi Magazzino");
         setSize(800, 600);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Chiude solo questa finestra, non l'app
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); //Chiude questa finestra
 
 
         popolaTabellaMovimenti();
         popolaTabellaClassifica();
         popolaTabellaSottoScorta();
-
-        // ... (chiamate agli altri metodi per le altre tabelle)
     }
 
     private void popolaTabellaSottoScorta() {
-        // Creiamo la struttura della tabella con le colonne
+        //Creiamo la struttura della tabella con le colonne
         String[] colonne = {"Codice/ID", "Nome Prodotto", "Giacenza", "Soglia Minima"};
         DefaultTableModel model = new DefaultTableModel(colonne, 0);
 
-        // Riempiamo le righe con i dati del nostro report
+        //Riempiamo le righe con i dati del nostro report
         for (Prodotto p : datiAnalisi.getListaProdottiSottoScorta()) {
             Object[] riga = {
                     p.getId(),
@@ -52,7 +50,7 @@ public class OutputSchermataAnalisi extends JFrame {
             model.addRow(riga);
         }
 
-        // Diciamo alla JTable grafica di usare questo modello di dati
+        //Diciamo alla JTable grafica di usare questo modello di dati
         tabellaSottoScorta.setModel(model);
     }
 
@@ -66,14 +64,14 @@ public class OutputSchermataAnalisi extends JFrame {
         // Iteriamo sulla lista dei movimenti
         for (Movimento m : datiAnalisi.getListaMovimenti()) {
             Object[] riga = {
-                    m.getData().format(formatter), // Assicurati che il getter si chiami così
-                    m.getProdotto().getNome(), // Recuperiamo il nome del prodotto collegato
+                    m.getData().format(formatter),
+                    m.getProdotto().getNome(),
                     m.getQuantitaProdotto()
             };
             model.addRow(riga);
         }
 
-        tabellaMovimenti.setModel(model); // Assicurati di aver dato questo "field name" nel .form
+        tabellaMovimenti.setModel(model);
     }
 
     private void popolaTabellaClassifica() {
@@ -93,7 +91,7 @@ public class OutputSchermataAnalisi extends JFrame {
             posizione++;
         }
 
-        tabellaClassifica.setModel(model); // Assicurati di aver dato questo "field name" nel .form
+        tabellaClassifica.setModel(model);
     }
 }
 

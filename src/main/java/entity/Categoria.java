@@ -10,7 +10,7 @@ public class Categoria {
 	private Long id;
 	private String Nome;
 
-	//costruttore vuoto
+	//costruttore vuoto utile per la persistenza
 	public Categoria() {
 	}
 

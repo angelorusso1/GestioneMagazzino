@@ -316,7 +316,7 @@ public class GestorePersistenza {
 
 	public DatiReport generaReportAnalisi(LocalDate dataInizio, LocalDate dataFine) {
 
-		// 1. Istanziamo l'oggetto DatiReport vuoto che farà da contenitore
+		// Istanziamo l'oggetto DatiReport vuoto che farà da contenitore
 		DatiReport report = new DatiReport();
 
 		// Recuperiamo l'EntityManager per comunicare con il database (adattalo alla tua classe JpaUtil)
@@ -324,7 +324,7 @@ public class GestorePersistenza {
 
 		try {
 
-			// 3. Classifica dei Prodotti più movimentati nel periodo
+			// Classifica dei Prodotti più movimentati nel periodo
 			// Raggruppiamo per prodotto e ordiniamo in base alla somma delle quantità (decrescente)
 			List<Prodotto> piuMovimentati = em.createQuery(
 							"SELECT m.prodotto FROM Movimento m WHERE m.Data BETWEEN :inizio AND :fine " +
@@ -334,7 +334,7 @@ public class GestorePersistenza {
 					.getResultList();
 			report.setListaProdottiPiuMovimentati(piuMovimentati);
 
-			// 2. Estrazione Storico Movimenti nel periodo selezionato
+			// Estrazione Storico Movimenti nel periodo selezionato
 			List<Movimento> movimentiPeriodo = em.createQuery(
 							"SELECT m FROM Movimento m WHERE m.Data BETWEEN :inizio AND :fine", Movimento.class)
 					.setParameter("inizio", dataInizio)
@@ -342,18 +342,17 @@ public class GestorePersistenza {
 					.getResultList();
 			report.setListaMovimenti(movimentiPeriodo);
 
-			// 3. Estrazione Prodotti Sotto Scorta
-// Usa i nomi esatti delle variabili con le maiuscole come le hai definite tu in Prodotto.java
+			// Estrazione Prodotti Sotto Scorta
 			List<Prodotto> sottoScorta = em.createQuery(
 							"SELECT p FROM Prodotto p WHERE p.quantitaDisponibile < p.sogliaMinima", Prodotto.class)
 					.getResultList();
-			report.setListaProdottiSottoScorta(sottoScorta); // O il nome del setter che hai in DatiReport
+			report.setListaProdottiSottoScorta(sottoScorta);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			// Gestione di un eventuale errore di connessione al database
 		} finally {
-			em.close(); // È fondamentale chiudere sempre l'EntityManager per evitare memory leak
+			em.close(); // Chiudiamo l'Entity Manager per evitare memory leak
 		}
 
 		// 2. Restituiamo il pacchetto completo al MagazzinoController

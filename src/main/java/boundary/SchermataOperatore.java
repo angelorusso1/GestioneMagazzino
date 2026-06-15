@@ -35,7 +35,7 @@ public class SchermataOperatore {
         this.controller = controller;
         this.prodottiVisualizzati = prodotti;
 
-        // 1. Popoliamo la tabella con i dati dei prodotti ricevuti
+        // Popoliamo la tabella con i dati dei prodotti ricevuti
         String[] colonne = {"Codice", "Nome", "Giacenza", "Categoria", "Posizione"};
         DefaultTableModel model = new DefaultTableModel(colonne, 0){
             @Override
@@ -56,11 +56,11 @@ public class SchermataOperatore {
         }
         tabellaProdotti.setModel(model);
 
-        // 3. 🎯 INIZIALIZZAZIONE DEL SORTER
+        // Inizializzo il sorter
         sorter = new TableRowSorter<>(model);
         tabellaProdotti.setRowSorter(sorter);
 
-        // 4. ASCOLTO IN TEMPO REALE (Filtra mentre l'utente digita)
+        // filtra in tempo reale mentre l'utente digita
         KeyAdapter tastoRilasciatoListener = new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -73,7 +73,7 @@ public class SchermataOperatore {
         txtFiltroCategoria.addKeyListener(tastoRilasciatoListener);
         txtFiltroPosizione.addKeyListener(tastoRilasciatoListener);
 
-        // 5. Gestione del pulsante Resetta
+        // Gestione del pulsante Resetta
         btnResettaFiltri.addActionListener(e -> {
             txtFiltroCodice.setText("");
             txtFiltroNome.setText("");
@@ -82,7 +82,7 @@ public class SchermataOperatore {
             sorter.setRowFilter(null); // Rimuove ogni filtro mostrando tutto
         });
 
-        // 2. Gestiamo il click sul tasto "Seleziona Prodotto"
+        // Gestiamo il click sul tasto "Seleziona Prodotto"
         btnSelezionaPerScarico.addActionListener(e -> {
             int rigaVisivaSelezionata = tabellaProdotti.getSelectedRow();
 
@@ -91,16 +91,17 @@ public class SchermataOperatore {
                 return;
             }
 
-            // Recuperiamo l'oggetto Prodotto reale corrispondente alla riga cliccata
-            // 🔥 FONDAMENTALE: Converte l'indice della riga filtrata nell'indice reale del database/lista
+            // Converte l'indice della riga filtrata nell'indice reale del database/lista
             int rigaModelloReale = tabellaProdotti.convertRowIndexToModel(rigaVisivaSelezionata);
+
+            // Recuperiamo l'oggetto Prodotto reale corrispondente alla riga cliccata
             Prodotto prodottoScelto = prodottiVisualizzati.get(rigaModelloReale);
 
             // Chiudiamo questa finestra attuale
             JFrame frameCorrente = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
             if (frameCorrente != null) frameCorrente.dispose();
 
-            // 🎯 PASSAMANO: Diciamo al controller di aprire lo scarico per QUESTO prodotto
+            //Diciamo al controller di aprire lo scarico per questo prodotto
             controller.apriSchermataScaricoSelezionato(prodottoScelto);
         });
     }
@@ -108,7 +109,7 @@ public class SchermataOperatore {
     private void applicaFiltriInAnd() {
         List<RowFilter<Object, Object>> filtriAttivi = new ArrayList<>();
 
-        // (?i) serve a rendere la ricerca Case-Insensitive (ignora maiuscole/minuscole)
+        // (?i) serve a rendere la ricerca Case-Insensitive
         if (!txtFiltroCodice.getText().trim().isEmpty()) {
             filtriAttivi.add(RowFilter.regexFilter("(?i)" + txtFiltroCodice.getText().trim(), 0)); // Colonna 0: Codice
         }

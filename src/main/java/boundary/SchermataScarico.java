@@ -46,6 +46,7 @@ public class SchermataScarico extends JPanel {
 
                 txtQuantitaDaScaricare.setText("");
 
+                //chiude la finestra
                 ((JFrame) SwingUtilities.getWindowAncestor(mainPanel)).dispose();
 
             } catch (NumberFormatException ex) {
@@ -65,9 +66,5 @@ public class SchermataScarico extends JPanel {
 
     public JPanel getMainPanel() {
         return mainPanel;
-    }
-
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
     }
 }

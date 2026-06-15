@@ -34,12 +34,14 @@ public class MainFrame {
             btnVisualizzaAnalisiMagazzino.setVisible(true);
             btnEffettuaScarico.setVisible(false);
             btnVisualizzaNotifiche.setVisible(true);
+
         } else if (utenteLoggato instanceof Operatore) {
             // L'Operatore può solo effettuare lo scarico fisico dei colli dal magazzino
             btnCreaProdotto.setVisible(false);
             btnVisualizzaAnalisiMagazzino.setVisible(false);
             btnEffettuaScarico.setVisible(true);
             btnVisualizzaNotifiche.setVisible(false);
+
         }
 
         //Listener per la gestione del click sul pulsante "Crea Prodotto"
@@ -63,16 +65,15 @@ public class MainFrame {
 
                     SchermataIniziale finestraIniziale = new SchermataIniziale();
 
-                    // 3. Creiamo la finestra nativa (JFrame) per rimpiazzare il vecchio main statico
                     JFrame frameIniziale = new JFrame("Sistema Gestione Magazzino - Benvenuto");
                     frameIniziale.setContentPane(finestraIniziale.getMainPanel());
 
-                    // 4. Proprietà standard della finestra di ingresso
+                    //Proprietà standard della finestra di ingresso
                     frameIniziale.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     frameIniziale.setSize(500, 400); // Imposta la dimensione della finestra di benvenuto
                     frameIniziale.setLocationRelativeTo(null); // Centra la finestra sullo schermo
 
-                    // 5. Rendiamo visibile la finestra di ingresso
+                    //Rendiamo visibile la finestra di ingresso
                     frameIniziale.setVisible(true);
                 }
             });

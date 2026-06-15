@@ -59,48 +59,11 @@ public class CatalogoProdotti {
 		return prodottoSalvato != null; // Se non è null è andato tutto a buon fine
 	}
 
-	/**
-	 * * @param prodotto
-	 * @param quantita
-	 */
-	public void aggiungiQuantitaProdotto(Prodotto prodotto, int quantita) {
-		// TODO - implement CatalogoProdotti.aggiungiQuantitaProdotto
-		throw new UnsupportedOperationException();
-	}
-
-	public List<String> getNomiProdotti() {
-		// TODO - implement CatalogoProdotti.getNomiProdotti
-		throw new UnsupportedOperationException();
-	}
-
 	public List<Prodotto> getCatalogoCompleto() {
 		//Ritorniamo la lista interna per consentire eventuali operazioni di lettura globali
 		return gestorePersistenza.cercaPerCampi(Prodotto.class, Map.of());
 	}
 
-	public List<Prodotto> getCatalogoSottoScorta() {
-		// TODO - implement CatalogoProdotti.getCatalogoSottoScorta
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * * @param nuovoNome
-	 * @param nuovaDescrizione
-	 * @param nuovaPosizione
-	 * @param nuovaSoglia
-	 * @param nuovaQuantita
-	 * @param nuovaCategoria
-	 * @param prodotto
-	 */
-	public void modificaProdotto(String nuovoNome, String nuovaDescrizione, Posizione nuovaPosizione, int nuovaSoglia, int nuovaQuantita, Categoria nuovaCategoria, Prodotto prodotto) {
-		// TODO - implement CatalogoProdotti.modificaProdotto
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * * @param prodotto
-	 * @param quantita
-	 */
 	/**
 	 * Esegue la sottrazione della quantità e salva sul database.
 	 */
@@ -112,6 +75,7 @@ public class CatalogoProdotti {
 
 		return salvato != null;
 	}
+
 	/**
 	 * * @param codice
 	 */
@@ -126,29 +90,5 @@ public class CatalogoProdotti {
 			risultati.add(trovato);
 		}
 		return risultati;
-	}
-
-	/**
-	 * * @param nome
-	 */
-	public List<Prodotto> cercaNome(String nome) {
-		// TODO - implement CatalogoProdotti.cercaNome
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * * @param categoria
-	 */
-	public List<Prodotto> cercaCategoria(Categoria categoria) {
-		// TODO - implement CatalogoProdotti.cercaCategoria
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * * @param posizione
-	 */
-	public List<Prodotto> cercaPosizione(Posizione posizione) {
-		// TODO - implement CatalogoProdotti.cercaPosizione
-		throw new UnsupportedOperationException();
 	}
 }

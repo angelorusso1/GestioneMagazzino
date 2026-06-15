@@ -12,19 +12,19 @@ public class PopolaDatabaseProva {
 
         System.out.println("Inizio popolamento del database...");
 
-        // 1. Creazione Utenti (Lower Case)
+        // Creazione Utenti (Lower Case)
         gestioneUtenti.registraDati("mario", "rossi", "mario.rossi@email.it", Ruolo.Responsabile);
         gestioneUtenti.registraDati("luigi", "verdi", "luigi.verdi@email.it", Ruolo.Operatore);
 
-        // 2. Creazione Categorie (Upper Case)
+        // Creazione Categorie (Upper Case)
         Categoria catElettronica = new Categoria("ELETTRONICA");
         Categoria catAlimentari = new Categoria("ALIMENTARI");
 
-        // 3. Creazione Posizioni (Upper Case)
+        // Creazione Posizioni (Upper Case)
         Posizione posA = new Posizione(1, "ZONA A");
         Posizione posB = new Posizione(2, "ZONA B");
 
-        // 4. Creazione Prodotti (Codici in MAIUSCOLO)
+        // Creazione Prodotti (Codici in MAIUSCOLO)
         // Prodotto 1: Normale disponibilità
         Prodotto p1 = new Prodotto("SKU-100", "Monitor 24 Pollici", "Monitor da ufficio", 5, catElettronica, posA);
         p1.setQuantitaDisponibile(15);
@@ -37,10 +37,10 @@ public class PopolaDatabaseProva {
         Prodotto p3 = new Prodotto("MELA-01", "Mele Annurche", "Cassa da 5kg", 20, catAlimentari, posB);
         p3.setQuantitaDisponibile(0);
 
-        // 5. Creazione Notifica iniziale di prova
+        // Creazione Notifica iniziale di prova
         Notifica n1 = new Notifica(p2);
 
-        // 6. 🎯 AGGIUNTA: Creazione Storico Movimenti per il Report Analisi
+        // Creazione Storico Movimenti per il Report Analisi
 
         // --- MOVIMENTI NEL PERIODO DI TEST (01/06/2026 - 15/06/2026) ---
         // Monitor 24" (p1): totale 30 + 25 = 55 unità (Sarà il 1° in classifica)
@@ -67,7 +67,7 @@ public class PopolaDatabaseProva {
         mFuoriPeriodo.setQuantitaProdotto(100);
         mFuoriPeriodo.setProdotto(p3);
 
-        // 7. Salvataggio di tutte le Entity nel DB
+        // Salvataggio di tutte le Entity nel DB
         // Sfrutta la predisposizione di salvaTutti per fare un'unica transazione pulita
         db.salvaTutti(p1, p2, p3, n1, m1, m2, m3, mFuoriPeriodo);
 
