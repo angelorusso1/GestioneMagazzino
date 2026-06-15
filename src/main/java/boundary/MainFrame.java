@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import controller.MagazzinoController;
 import entity.Operatore;
 import entity.Responsabile;
 import entity.Utente;
@@ -42,6 +43,19 @@ public class MainFrame {
                     chiudiFinestra();
                     // Riapriamo la schermata iniziale per fare un nuovo accesso
                     SchermataIniziale.main(new String[]{});
+                }
+            });
+        }
+
+        if (btnVisualizzaAnalisiMagazzino != null) {
+            btnVisualizzaAnalisiMagazzino.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Istanziamo il controller seguendo il vostro standard
+                    MagazzinoController controllerAnalisi = new MagazzinoController((SchermataRegistrazione) null);
+
+                    // Chiamiamo il metodo appena creato per aprire il form delle date
+                    controllerAnalisi.apriSchermataAnalisi();
                 }
             });
         }

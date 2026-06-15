@@ -11,16 +11,18 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class SchermataAnalisiMagazzino {
-    private JPanel panel1;
+    private JPanel mainPanel;
     private JButton btnGeneraAnalisi;
     private JLabel lblDataInizio;
     private JLabel lblDataFine;
     private JTextField txtDataInizio;
     private JTextField txtDataFine;
 
-    public SchermataAnalisiMagazzino() {
+    private MagazzinoController magazzinoController;
 
+    public SchermataAnalisiMagazzino(MagazzinoController magazzinoController) {
 
+        this.magazzinoController = magazzinoController;
 
         btnGeneraAnalisi.addActionListener(new ActionListener() {
             @Override
@@ -51,6 +53,9 @@ public class SchermataAnalisiMagazzino {
                 }
             }
         });
-
     }
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
+
 }

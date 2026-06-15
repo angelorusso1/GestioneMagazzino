@@ -7,6 +7,8 @@ import entity.DatiReport;
 import entity.Movimento;
 import entity.Prodotto;
 
+import java.time.format.DateTimeFormatter;
+
 
 public class OutputSchermataAnalisi extends JFrame {
 
@@ -59,10 +61,12 @@ public class OutputSchermataAnalisi extends JFrame {
         String[] colonne = {"Data", "Prodotto", "Quantità Movimentata"};
         DefaultTableModel model = new DefaultTableModel(colonne, 0);
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
         // Iteriamo sulla lista dei movimenti
         for (Movimento m : datiAnalisi.getListaMovimenti()) {
             Object[] riga = {
-                    m.getData(), // Assicurati che il getter si chiami così
+                    m.getData().format(formatter), // Assicurati che il getter si chiami così
                     m.getProdotto().getNome(), // Recuperiamo il nome del prodotto collegato
                     m.getQuantitaProdotto()
             };

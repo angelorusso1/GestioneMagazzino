@@ -1,14 +1,11 @@
 package controller;
 
-import boundary.MainFrame;
-import boundary.OutputSchermataAnalisi;
-import boundary.SchermataLogin;
+import boundary.*;
 import database.GestorePersistenza;
 import entity.*;
 
 import java.time.LocalDate;
 
-import boundary.SchermataRegistrazione;
 import entity.Ruolo;
 
 import javax.swing.*;
@@ -201,6 +198,20 @@ public class MagazzinoController {
 	public void richiediRicercaPoszione(Posizione posizione) {
 		// TODO - implement MagazzinoController.richiediRicercaPoszione
 		throw new UnsupportedOperationException();
+	}
+
+	public void apriSchermataAnalisi() {
+		// Istanziamo la schermata di inserimento date passando questo controller
+		SchermataAnalisiMagazzino schermataInput = new SchermataAnalisiMagazzino(this);
+
+		// Creiamo la finestra nativa
+		JFrame frameInput = new JFrame("Seleziona Periodo Analisi");
+		frameInput.setContentPane(schermataInput.getMainPanel());
+		frameInput.pack();
+
+		// Centriamo la finestra nello schermo e la rendiamo visibile
+		frameInput.setLocationRelativeTo(null);
+		frameInput.setVisible(true);
 	}
 
 }

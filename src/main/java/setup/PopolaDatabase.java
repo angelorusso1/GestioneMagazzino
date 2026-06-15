@@ -37,8 +37,10 @@ public class PopolaDatabase {
             System.err.println("Errore durante il salvataggio degli utenti.");
         }
 
+
+
+        System.out.println("Test terminato.");
         // 6. Chiudiamo la connessione
         JpaUtil.getInstance().chiudi();
-        System.out.println("Test terminato.");
     }
 }
