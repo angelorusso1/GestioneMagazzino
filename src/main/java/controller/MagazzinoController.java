@@ -73,6 +73,13 @@ public class MagazzinoController {
 
 	public void richiediRegistrazione(String nome, String cognome, String email, Ruolo ruolo) {
 		GestioneUtenti gestioneUtenti = new GestioneUtenti();
+
+		// Controlliamo se l'email è già presente nel DB
+		if (gestioneUtenti.emailGiaRegistrata(email)) {
+			schermataRegistrazione.messaggioErrore("ERRORE: L'indirizzo email '" + email + "' è già associato a un account esistente.");
+			return; // Interrompe immediatamente il metodo evitando il duplicato
+		}
+
 		boolean esito = gestioneUtenti.registraDati(nome, cognome, email, ruolo);
 
 		if (esito) {

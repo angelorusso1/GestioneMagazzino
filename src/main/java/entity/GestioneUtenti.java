@@ -51,4 +51,18 @@ public class GestioneUtenti {
 		GestorePersistenza gp = new GestorePersistenza();
 		return gp.cercaUtentePerLogin(nome, cognome, email);
 	}
+
+	/**
+	 * Verifica se esiste già un utente con la stessa email.
+	 * Restituisce true se l'email è già presente, false altrimenti.
+	 */
+	public boolean emailGiaRegistrata(String email) {
+		GestorePersistenza gp = new GestorePersistenza();
+
+		// Usiamo il tuo metodo generico del gestore persistenza
+		List<Utente> risultati = gp.cercaPerCampo(Utente.class, "Email", email);
+
+		// Se la lista non è vuota, significa che l'email esiste già
+		return risultati != null && !risultati.isEmpty();
+	}
 }
