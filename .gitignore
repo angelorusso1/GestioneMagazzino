@@ -37,7 +37,3 @@ build/
 
 ### Mac OS ###
 .DS_Store
-
-# Credenziali del DB (Opzionale ma consigliato)
-# Se decidi di non caricare il persistence.xml per non condividere la tua password di root
-src/main/resources/META-INF/persistence.xml

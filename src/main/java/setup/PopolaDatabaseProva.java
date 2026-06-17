@@ -15,6 +15,10 @@ public class PopolaDatabaseProva {
         // Creazione Utenti (Lower Case)
         gestioneUtenti.registraDati("mario", "rossi", "mario.rossi@email.it", Ruolo.Responsabile);
         gestioneUtenti.registraDati("luigi", "verdi", "luigi.verdi@email.it", Ruolo.Operatore);
+        gestioneUtenti.registraDati("angelo", "russo", "angelo.russo21@studenti.unina.it", Ruolo.Responsabile);
+        gestioneUtenti.registraDati("alessandro", "scudieri", "al.scudieri@studenti.unina.it", Ruolo.Responsabile);
+        gestioneUtenti.registraDati("giovanni", "cozzolino", "giovanni.cozzolino13@studenti.unina.it", Ruolo.Responsabile);
+        gestioneUtenti.registraDati("alessio", "paparo", "aless.paparo@studenti.unina.it", Ruolo.Responsabile);
 
         // Creazione Categorie (Upper Case)
         Categoria catElettronica = new Categoria("ELETTRONICA");
@@ -35,7 +39,7 @@ public class PopolaDatabaseProva {
 
         // Prodotto 3: Esaurito e sotto scorta (Giacenza 0 < Soglia 20)
         Prodotto p3 = new Prodotto("MELA-01", "Mele Annurche", "Cassa da 5kg", 20, catAlimentari, posB);
-        p3.setQuantitaDisponibile(0);
+        p3.setQuantitaDisponibile(30);
 
         // Creazione Notifica iniziale di prova
         Notifica n1 = new Notifica(p2);
