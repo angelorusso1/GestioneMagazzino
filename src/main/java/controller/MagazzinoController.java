@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import javax.swing.*;
-
+import java.time.format.DateTimeFormatter;
 
 public class MagazzinoController {
 
@@ -38,8 +38,15 @@ public class MagazzinoController {
 		} else {
 			schermataLogin.messaggioConferma("Benvenuto " + utenteTrovato.getNome() + "!");
 
+			String ruolo = "";
+			if (utenteTrovato instanceof Responsabile) {
+				ruolo = "Responsabile";
+			} else if (utenteTrovato instanceof Operatore) {
+				ruolo = "Operatore";
+			}
+
 			JFrame framePrincipale = new JFrame("Sistema di Gestione Magazzino");
-			MainFrame mainFrame = new MainFrame(utenteTrovato);
+			MainFrame mainFrame = new MainFrame(utenteTrovato.getNome(), utenteTrovato.getCognome(), ruolo);
 
 			framePrincipale.setContentPane(mainFrame.getMainPanel());
 			framePrincipale.setSize(600, 450);
@@ -71,7 +78,7 @@ public class MagazzinoController {
 		}
 	}
 
-	public void richiediRegistrazione(String nome, String cognome, String email, Ruolo ruolo) {
+	public void richiediRegistrazione(String nome, String cognome, String email, String ruolo) {
 		GestioneUtenti gestioneUtenti = new GestioneUtenti();
 
 		// Controlliamo se l'email è già presente nel DB
@@ -130,12 +137,44 @@ public class MagazzinoController {
 
 	public void richiediAnalisiMagazzino(LocalDate dataInizio, LocalDate dataFine) {
 
-		//richiede analisi magazzino allo storico movimenti
+		// 1. Richiede analisi magazzino allo storico movimenti (LOGICA DI DOMINIO - Invariato)
 		StoricoMovimenti storico = new StoricoMovimenti();
 		DatiReport reportMagazzino = storico.ottieniReportAnalisi(dataInizio, dataFine);
 
-		// Istanziamo la schermata di output passando un unico oggetto (Invariato)
-		OutputSchermataAnalisi schermataRisultati = new OutputSchermataAnalisi(reportMagazzino);
+		// 2. DISACCOPPIAMENTO (BCE): Il Controller converte gli oggetti complessi in matrici primitive
+
+		// -- Preparazione Dati Movimenti --
+		Object[][] datiMovimenti = new Object[reportMagazzino.getListaMovimenti().size()][3];
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+		for (int i = 0; i < reportMagazzino.getListaMovimenti().size(); i++) {
+			Movimento m = reportMagazzino.getListaMovimenti().get(i);
+			datiMovimenti[i][0] = m.getData().format(formatter); // La data diventa una semplice stringa
+			datiMovimenti[i][1] = m.getProdotto().getNome();     // Estraggo il nome senza passare l'intero oggetto Prodotto
+			datiMovimenti[i][2] = m.getQuantitaProdotto();
+		}
+
+		// -- Preparazione Dati Classifica --
+		Object[][] datiClassifica = new Object[reportMagazzino.getListaProdottiPiuMovimentati().size()][3];
+		for (int i = 0; i < reportMagazzino.getListaProdottiPiuMovimentati().size(); i++) {
+			Prodotto p = reportMagazzino.getListaProdottiPiuMovimentati().get(i);
+			datiClassifica[i][0] = (i + 1) + "°";
+			datiClassifica[i][1] = p.getId();
+			datiClassifica[i][2] = p.getNome();
+		}
+
+		// -- Preparazione Dati Sotto Scorta --
+		Object[][] datiSottoScorta = new Object[reportMagazzino.getListaProdottiSottoScorta().size()][4];
+		for (int i = 0; i < reportMagazzino.getListaProdottiSottoScorta().size(); i++) {
+			Prodotto p = reportMagazzino.getListaProdottiSottoScorta().get(i);
+			datiSottoScorta[i][0] = p.getId();
+			datiSottoScorta[i][1] = p.getNome();
+			datiSottoScorta[i][2] = p.getQuantitaDisponibile();
+			datiSottoScorta[i][3] = p.getSogliaMinima();
+		}
+
+		// 3. Istanziamo la schermata di output passando le tre matrici di dati base
+		OutputSchermataAnalisi schermataRisultati = new OutputSchermataAnalisi(datiMovimenti, datiClassifica, datiSottoScorta);
 
 		// Rendiamo visibile la finestra (Invariato)
 		schermataRisultati.setVisible(true);

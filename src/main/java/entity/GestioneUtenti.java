@@ -18,10 +18,10 @@ public class GestioneUtenti {
 	 * @param email
 	 * @param ruolo
 	 */
-	public boolean registraDati(String nome, String cognome, String email, Ruolo ruolo) {
-		if (ruolo == Ruolo.Responsabile) {
+	public boolean registraDati(String nome, String cognome, String email, String ruolo) {
+		if ("Responsabile".equalsIgnoreCase(ruolo)) {
 			return registraResponsabile(nome, cognome, email);
-		} else if (ruolo == Ruolo.Operatore) {
+		} else if ("Operatore".equalsIgnoreCase(ruolo)) {
 			return registraOperatore(nome, cognome, email);
 		}
 		return false;
