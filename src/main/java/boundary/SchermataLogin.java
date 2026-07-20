@@ -1,7 +1,7 @@
 package boundary;
 
 import controller.MagazzinoController;
-import entity.Ruolo;
+
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -15,7 +15,7 @@ public class SchermataLogin {
     private JTextField txtCognome;
     private JTextField txtEmail;
     private JTextField txtNome;
-    private JComboBox<Ruolo> cmbRuolo;
+    private JComboBox<String> cmbRuolo;
     private JButton btnAccedi;
 
     private MagazzinoController controller;

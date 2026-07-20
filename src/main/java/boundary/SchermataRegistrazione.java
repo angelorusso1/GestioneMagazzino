@@ -2,7 +2,7 @@ package boundary;
 
 import controller.MagazzinoController;
 
-import entity.Ruolo;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +11,7 @@ public class SchermataRegistrazione {
     private JTextField txtNome;
     private JTextField txtCognome;
     private JTextField txtEmail;
-    private JComboBox<Ruolo> cmbRuolo;
+    private JComboBox<String> cmbRuolo;
     private JPanel mainPanel;
     private JLabel lblNome;
     private JLabel lblCognome;
@@ -24,7 +24,7 @@ public class SchermataRegistrazione {
     public SchermataRegistrazione() {
         this.controller = new MagazzinoController(this);
 
-        cmbRuolo.setModel(new DefaultComboBoxModel<>(Ruolo.values()));
+        cmbRuolo.setModel(new DefaultComboBoxModel<>(new String[]{"Operatore", "Responsabile"}));
 
         //compilaDati (quando l'utente preme il bottone Salva)
         btnSalva.addActionListener(new ActionListener() {
@@ -35,7 +35,7 @@ public class SchermataRegistrazione {
                 String cognome = txtCognome.getText().toLowerCase();
                 String email = txtEmail.getText().toLowerCase();
 
-                Ruolo ruoloSelected = (Ruolo) cmbRuolo.getSelectedItem();
+                String ruoloSelected = (String) cmbRuolo.getSelectedItem();
 
                 //Validazione base
                 if (nome.isEmpty() || cognome.isEmpty() || email.isEmpty()) {

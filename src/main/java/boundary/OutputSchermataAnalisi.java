@@ -3,16 +3,8 @@ package boundary;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-import entity.DatiReport;
-import entity.Movimento;
-import entity.Prodotto;
-
-import java.time.format.DateTimeFormatter;
-
-
 public class OutputSchermataAnalisi extends JFrame {
 
-    private DatiReport datiAnalisi;
     private JPanel mainPanel;
     private JTable tabellaSottoScorta;
     private JTable tabellaClassifica;
@@ -21,76 +13,37 @@ public class OutputSchermataAnalisi extends JFrame {
     private JLabel lblPiuMovimentati;
     private JLabel lblStoricoMovimenti;
 
-    public OutputSchermataAnalisi(DatiReport reportMagazzino) {
-        this.datiAnalisi = reportMagazzino;
+    public OutputSchermataAnalisi(Object[][] datiMovimenti, Object[][] datiClassifica, Object[][] datiSottoScorta) {
         setContentPane(mainPanel);
         setTitle("Risultati Analisi Magazzino");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); //Chiude questa finestra
 
 
-        popolaTabellaMovimenti();
-        popolaTabellaClassifica();
-        popolaTabellaSottoScorta();
+        popolaTabellaMovimenti(datiMovimenti);
+        popolaTabellaClassifica(datiClassifica);
+        popolaTabellaSottoScorta(datiSottoScorta);
     }
 
-    private void popolaTabellaSottoScorta() {
+    private void popolaTabellaSottoScorta(Object[][] dati) {
         //Creiamo la struttura della tabella con le colonne
         String[] colonne = {"Codice/ID", "Nome Prodotto", "Giacenza", "Soglia Minima"};
-        DefaultTableModel model = new DefaultTableModel(colonne, 0);
+        DefaultTableModel model = new DefaultTableModel(dati, colonne);
 
-        //Riempiamo le righe con i dati del nostro report
-        for (Prodotto p : datiAnalisi.getListaProdottiSottoScorta()) {
-            Object[] riga = {
-                    p.getId(),
-                    p.getNome(),
-                    p.getQuantitaDisponibile(),
-                    p.getSogliaMinima()
-            };
-            model.addRow(riga);
-        }
 
         //Diciamo alla JTable grafica di usare questo modello di dati
         tabellaSottoScorta.setModel(model);
     }
 
-    private void popolaTabellaMovimenti() {
-        // Colonne per lo storico dei movimenti
+    private void popolaTabellaMovimenti(Object[][] dati) {
         String[] colonne = {"Data", "Prodotto", "Quantità Movimentata"};
-        DefaultTableModel model = new DefaultTableModel(colonne, 0);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-        // Iteriamo sulla lista dei movimenti
-        for (Movimento m : datiAnalisi.getListaMovimenti()) {
-            Object[] riga = {
-                    m.getData().format(formatter),
-                    m.getProdotto().getNome(),
-                    m.getQuantitaProdotto()
-            };
-            model.addRow(riga);
-        }
-
+        DefaultTableModel model = new DefaultTableModel(dati, colonne);
         tabellaMovimenti.setModel(model);
     }
 
-    private void popolaTabellaClassifica() {
-        // Colonne per la classifica dei più movimentati
+    private void popolaTabellaClassifica(Object[][] dati) {
         String[] colonne = {"Posizione", "ID Prodotto", "Nome Prodotto"};
-        DefaultTableModel model = new DefaultTableModel(colonne, 0);
-
-        int posizione = 1;
-        // La query ci ha già restituito i prodotti ordinati dal più al meno movimentato
-        for (Prodotto p : datiAnalisi.getListaProdottiPiuMovimentati()) {
-            Object[] riga = {
-                    posizione + "°",
-                    p.getId(),
-                    p.getNome()
-            };
-            model.addRow(riga);
-            posizione++;
-        }
-
+        DefaultTableModel model = new DefaultTableModel(dati, colonne);
         tabellaClassifica.setModel(model);
     }
 }

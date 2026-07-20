@@ -13,12 +13,12 @@ public class PopolaDatabaseProva {
         System.out.println("Inizio popolamento del database...");
 
         // Creazione Utenti (Lower Case)
-        gestioneUtenti.registraDati("mario", "rossi", "mario.rossi@email.it", Ruolo.Responsabile);
-        gestioneUtenti.registraDati("luigi", "verdi", "luigi.verdi@email.it", Ruolo.Operatore);
-        gestioneUtenti.registraDati("angelo", "russo", "angelo.russo21@studenti.unina.it", Ruolo.Responsabile);
-        gestioneUtenti.registraDati("alessandro", "scudieri", "al.scudieri@studenti.unina.it", Ruolo.Responsabile);
-        gestioneUtenti.registraDati("giovanni", "cozzolino", "giovanni.cozzolino13@studenti.unina.it", Ruolo.Responsabile);
-        gestioneUtenti.registraDati("alessio", "paparo", "aless.paparo@studenti.unina.it", Ruolo.Responsabile);
+        gestioneUtenti.registraDati("mario", "rossi", "mario.rossi@email.it", "Responsabile");
+        gestioneUtenti.registraDati("luigi", "verdi", "luigi.verdi@email.it", "Operatore");
+        gestioneUtenti.registraDati("angelo", "russo", "angelo.russo21@studenti.unina.it", "Responsabile");
+        gestioneUtenti.registraDati("alessandro", "scudieri", "al.scudieri@studenti.unina.it", "Responsabile");
+        gestioneUtenti.registraDati("giovanni", "cozzolino", "giovanni.cozzolino13@studenti.unina.it", "Responsabile");
+        gestioneUtenti.registraDati("alessio", "paparo", "aless.paparo@studenti.unina.it", "Responsabile");
 
         // Creazione Categorie (Upper Case)
         Categoria catElettronica = new Categoria("ELETTRONICA");

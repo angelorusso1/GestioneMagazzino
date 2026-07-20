@@ -5,9 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import controller.MagazzinoController;
-import entity.Operatore;
-import entity.Responsabile;
-import entity.Utente;
+
 
 public class MainFrame {
     private JPanel mainPanel;
@@ -20,22 +18,21 @@ public class MainFrame {
 
     /**
      * Costruttore della Dashboard principale
-     * @param utenteLoggato l'utente estratto dal database che contiene il ruolo
      */
-    public MainFrame(Utente utenteLoggato) {
+    public MainFrame(String nome, String cognome, String ruolo) {
 
         //Messaggio di benvenuto dinamico
-        lblBenvenuto.setText("Dashboard di: " + utenteLoggato.getNome() + " " + utenteLoggato.getCognome());
+        lblBenvenuto.setText("Dashboard di: " + nome + " " + cognome);
 
         //Controllo dei Permessi basato sul pattern di ereditarietà del dominio
-        if (utenteLoggato instanceof Responsabile) {
+        if ("Responsabile".equalsIgnoreCase(ruolo)) {
             // Il Responsabile può creare prodotti e vedere le analisi, ma non scaricare le merci direttamente
             btnCreaProdotto.setVisible(true);
             btnVisualizzaAnalisiMagazzino.setVisible(true);
             btnEffettuaScarico.setVisible(false);
             btnVisualizzaNotifiche.setVisible(true);
 
-        } else if (utenteLoggato instanceof Operatore) {
+        } else if ("Operatore".equalsIgnoreCase(ruolo)) {
             // L'Operatore può solo effettuare lo scarico fisico dei colli dal magazzino
             btnCreaProdotto.setVisible(false);
             btnVisualizzaAnalisiMagazzino.setVisible(false);
