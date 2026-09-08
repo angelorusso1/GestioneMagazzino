@@ -230,11 +230,15 @@ public class MagazzinoController {
 	}
 
 	public void apriSchermataScaricoSelezionato(Prodotto prodottoSelezionato) {
+		// Estraiamo i dati primitivi dall'entità PRIMA di passarli alla Boundary
+		String codice = prodottoSelezionato.getCodice();
+		String nome = prodottoSelezionato.getNome();
+
 		// Istanziamo la SchermataScarico passando questo controller
-		SchermataScarico schermataScarico = new SchermataScarico(this, prodottoSelezionato);
+		SchermataScarico schermataScarico = new SchermataScarico(this, codice, nome);
 
 		// Creazione e configurazione della finestra nativa
-		JFrame frameScarico = new JFrame("Effettua Scarico Prodotto - " + prodottoSelezionato.getNome());
+		JFrame frameScarico = new JFrame("Effettua Scarico Prodotto - " + nome);
 
 		// Recuperiamo il pannello principale della schermata (JPanel)
 		frameScarico.setContentPane(schermataScarico.getMainPanel());

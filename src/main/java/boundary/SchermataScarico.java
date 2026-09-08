@@ -1,7 +1,6 @@
 package boundary;
 
 import controller.MagazzinoController;
-import entity.Prodotto;
 
 import javax.swing.*;
 
@@ -15,18 +14,16 @@ public class SchermataScarico extends JPanel {
     private JTextField txtQuantitaDaScaricare;
     private JLabel lblQuantitaDaScaricare;
 
-    private Prodotto prodottoDaScaricare;
 
     private MagazzinoController controller;
 
-    public SchermataScarico(MagazzinoController controller, Prodotto prodotto) {
+    public SchermataScarico(MagazzinoController controller,String codiceProdotto,String nomeProdotto) {
         this.controller = controller;
-        this.prodottoDaScaricare = prodotto;
 
-        txtCodice.setText(prodotto.getCodice());
+        txtCodice.setText(codiceProdotto);
         txtCodice.setEditable(false); // Blocca la modifica
 
-        txtNome.setText(prodotto.getNome());
+        txtNome.setText(nomeProdotto);
         txtNome.setEditable(false);
 
         btnConfermaScarico.addActionListener(e -> {
